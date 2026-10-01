@@ -1,0 +1,537 @@
+<title>CareCompass - About</title>
+    <style>
+        /* ========== GLOBAL STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #0a1a3c;
+            --deep: #1e3a6b;
+            --accent: #00bfff;
+            --danger: #f02c2c;
+            --soft-bg: #eef7ff;
+            --card-grad: linear-gradient(135deg, #ffffff, #d9f1ff);
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(10, 26, 60, 0.12);
+            --shadow-hover: 0 20px 40px rgba(10, 26, 60, 0.2);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--dark);
+            background: linear-gradient(180deg, #f7fdff, #f0f8ff 60%);
+            overflow-x: hidden;
+        }
+
+        /* ========== NAVBAR STYLES (SAME AS INDEX) ========== */
+        nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 40px;
+            background: linear-gradient(90deg, #0a1a3c, #1e3a6b);
+            border-bottom: 3px solid #00bfff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+            border-radius: 0 0 14px 14px;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        .title {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .title span {
+            color: #00bfff;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #00bfff;
+        }
+
+        nav ul li a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #00bfff;
+            border-radius: 2px;
+        }
+
+        .signup-link {
+            background: linear-gradient(135deg, #00bfff, #1e6f9f);
+            padding: 8px 20px !important;
+            border-radius: 30px;
+        }
+
+        .signup-link:hover {
+            background: linear-gradient(135deg, #1e6f9f, #00bfff);
+            transform: translateY(-2px);
+        }
+
+        .signup-link:hover::after {
+            display: none;
+        }
+
+        /* Active link styling */
+        nav ul li a.active {
+            color: #00bfff;
+        }
+
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* ========== ABOUT PAGE SPECIFIC STYLES ========== */
+        
+        /* HERO SECTION */
+        .hero {
+            background-image: url(img.jpg);
+            background-position: right center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding: 100px 10%;
+            text-align: center;
+            border-bottom: 3px solid var(--accent);
+            position: relative;
+            background-color: rgba(10, 26, 60, 0.7);
+            background-blend-mode: overlay;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        .hero p {
+            font-size: 18px;
+            width: 70%;
+            margin: auto;
+            line-height: 1.7;
+            color: #f0f9ff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+        }
+
+        /* CONTENT BOX */
+        .box {
+            width: 85%;
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 40px 45px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(217, 241, 255, 0.9));
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: center;
+            color: #1a3a5f;
+            border-left: 6px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 48px rgba(0, 0, 0, 0.18);
+        }
+
+        /* FEATURES SECTION */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 60px auto;
+            max-width: 1300px;
+            padding: 0 24px;
+        }
+
+        /* CARD STYLE */
+        .feature-card {
+            width: 320px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: var(--card-grad);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transition: all 0.35s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 28px 45px rgba(0, 191, 255, 0.2);
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .card-content {
+            padding: 24px 20px 28px;
+        }
+
+        .card-content h3 {
+            margin-bottom: 12px;
+            font-size: 1.6rem;
+            color: var(--deep);
+            font-weight: 700;
+        }
+
+        .card-content p {
+            color: #2c4e6e;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* ========== FOOTER STYLES ========== */
+        .site-footer {
+            margin-top: 60px;
+            padding: 48px 32px 32px;
+            background: linear-gradient(90deg, var(--deep), var(--dark));
+            color: #f0f9ff;
+            text-align: center;
+            border-top: 4px solid var(--accent);
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .footer-main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            text-align: left;
+            padding-bottom: 28px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-brand h3 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            color: white;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            max-width: 280px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            color: var(--accent);
+        }
+
+        .footer-links-column a {
+            color: #eef7ff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s, transform 0.1s;
+            display: inline-block;
+        }
+
+        .footer-links-column a:hover {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            font-size: 0.95rem;
+            padding-top: 20px;
+            opacity: 0.9;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .footer-bottom a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 18px;
+        }
+
+        .social-icons span {
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .social-icons span:hover {
+            transform: translateY(-3px);
+            color: var(--accent);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 850px) {
+            nav {
+                padding: 12px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            .title {
+                font-size: 20px;
+            }
+            .hero {
+                padding: 60px 8%;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                width: 90%;
+                font-size: 16px;
+            }
+            .box {
+                width: 90%;
+                padding: 30px 25px;
+                font-size: 16px;
+            }
+            .feature-card {
+                width: 280px;
+            }
+            .footer-main {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .footer-links {
+                justify-content: center;
+                gap: 32px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            .card-content h3 {
+                font-size: 1.3rem;
+            }
+            .feature-card {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero, .box, .features {
+            animation: fadeIn 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== NAVBAR (SAME AS INDEX PAGE) ========== -->
+    <nav>
+        <div class="title">Care<span>Compass</span></div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="signup.html" class="signup-link">Sign Up</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION (About Page) -->
+    <section class="hero">
+        <h1>About Our Medical Healthcare Platform</h1>
+        <p>We provide trusted, organized and easy-to-understand medical information to help people stay informed & healthy.</p>
+    </section>
+
+    <!-- CONTENT BOX -->
+    <div class="box">
+        🌟 Our platform offers authentic medical details on symptoms, diseases, causes, treatment guidelines and more.
+        We focus on creating awareness and educating people about their health so they can make informed decisions.
+        With a commitment to accuracy and compassion, CareCompass bridges the gap between complex medical jargon and everyday understanding.
+    </div>
+
+    <!-- FEATURES SECTION -->
+    <div class="features">
+        <div class="feature-card">
+            <img src="trusted info.jpg" alt="Trusted Medical Info">
+            <div class="card-content">
+                <h3>✔ Trusted Information</h3>
+                <p>Reliable medically reviewed content you can trust, sourced from verified healthcare professionals.</p>
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <img src="easy to understand.jpg" alt="Easy Understanding">
+            <div class="card-content">
+                <h3>✔ Easy to Understand</h3>
+                <p>Medical information explained in simple language with clear visuals and step-by-step guidance.</p>
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <img src="always avaliable.jpg" alt="24/7 Access">
+            <div class="card-content">
+                <h3>✔ Always Available</h3>
+                <p>Access healthcare information anytime, anywhere — on desktop, tablet, or mobile.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>Care Compass</h3>
+                    <p>Your trusted partner in health navigation. Evidence-based, compassionate, and always accessible.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-links-column">
+                        <h4>Explore</h4>
+                        <a href="diseases.html">Diseases Library</a>
+                        <a href="doctors.html">Find a Doctor</a>
+                        <a href="medicines.html">Medicines Guide</a>
+                       
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Support</h4>
+                        <a href="contact.html">Contact Us</a>
+                        <a href="about.html">About Us</a>
+                        
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Resources</h4>
+                        <a href="health-blog.html">Health Blog</a>
+                        <a href="wellness-tips.html">Wellness Tips</a>
+                        <a href="emergencey-guide.html">Emergency Guide</a>
+                    </div>
+                    <div class="footer-links-column">
+                        <h4>Account</h4>
+                        <a href="login.html">Login</a>
+                        <a href="signup.html">Sign Up</a>
+                        <a href="appointment.html">My Appointments</a>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2025 Care Compass — HealthCare Information Platform. All rights reserved.</div>
+                <!-- <div class="social-icons">
+                    <span>📘</span>
+                    <span>🐦</span>
+                    <span>📸</span>
+                    <span>🔗</span>
+                </div> -->
+                <div>Need help? <a href="contact.html">Reach our team</a> | ✉️ support@carecompass.com</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set active link based on current page
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
