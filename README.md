@@ -250,7 +250,12 @@ Ayesha Ikram
 Supervisor: Miss Farhat Naz
 Department: Computer Science, Government Graduate College for Women, Samundri
 Project Partner: Saleha Rasheed, Sobia Naz
-Special Thanks: First of All to Allah Almighty who made me capable of achiving something like this. And to the Prophet Hazrat Muhammad (S.A.W) who is my role model. To my Parentswho always stood by my side and supported me to choose my desired field of Study. To my friends Noor Fatima, Areeba Ayub, Saleha Rasheed and Sobia Naz who supported me throughout this jpurney, who turend every stressed day into happiest moment.
+Special Thanks: First of All to Allah Almighty who made me capable of achiving something like this.
+ And to the Prophet Hazrat Muhammad (S.A.W) who is my role model.
+ To my Parentswho always stood by my side and supported me to choose my desired field of Study.
+ To my friends Noor Fatima, Areeba Ayub, Saleha Rasheed and Sobia Naz
+who supported me throughout this jpurney,
+who turend every stressed day into happiest moment.
 
 
 
