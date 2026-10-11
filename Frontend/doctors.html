@@ -1,0 +1,266 @@
+<title>Our Doctors | CareCompass</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #e1f5fe;
+      color: #0a1a3c;
+    }
+
+    header {
+      background: linear-gradient(90deg, #0a1a3c, #1e3a6b);
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 34px;
+      color: #0a1a3c;
+      margin-bottom: 25px;
+      border-bottom: 3px solid #00bfff;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 5px;
+    }
+
+    .info-note {
+      text-align: center;
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+      color: #856404;
+    }
+
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .doctor-card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+    }
+
+    .doctor-card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .doctor-name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #0a1a3c;
+    }
+
+    .doctor-speciality {
+      color: #0077b6;
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .doctor-description {
+      color: #555;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 15px;
+      text-align: center;
+      padding: 0 5px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      background: #0a1a3c;
+      color: white;
+      font-size: 15px;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 5px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 20px;
+      padding: 50px;
+      color: #0a1a3c;
+    }
+
+    /* New Navbar Styles */
+    .navbar {
+      background: linear-gradient(90deg, #0a1a3c, #1e3a6b);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #00bfff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .logout-btn {
+      background: #ff4444;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header>CareCompass</header>
+
+<div class="container">
+  <div class="page-title">Meet Our Expert Doctors</div>
+  <div class="info-note">
+    Note: Each doctor can take maximum 2 patients per time slot
+  </div>
+  <div class="doctors-grid" id="doctorsGrid">
+    <div class="loading">Loading doctors...</div>
+  </div>
+</div>
+
+<script>
+  // Complete doctors data (20 doctors with short descriptions)
+  const doctorsData = [
+    // Cardiology (2 doctors)
+    { name: "Dr. Sarah Ahmed", specialty: "Cardiologist", image: "fDoc1.jpg", description: "Treats heart problems, blood pressure, and chest pain" },
+    { name: "Dr. Yusuf Hassan", specialty: "Cardiologist", image: "mDoc1.jpg", description: "Expert in heart disease prevention and cholesterol management" },
+    
+    // Neurology (2 doctors)
+    { name: "Dr. Usman Khan", specialty: "Neurologist", image: "neurosergon.jpg", description: "Treats headaches, migraines, epilepsy, and stroke" },
+    { name: "Dr. Fatima Zahra", specialty: "Neurologist", image: "fdoc4.jpg", description: "Specialist in nerve disorders and back pain treatment" },
+    
+    // Dermatology (2 doctors)
+    { name: "Dr. Ayesha Malik", specialty: "Dermatologist", image: "fdoc4.jpg", description: "Treats skin problems, acne, eczema, and hair fall" },
+    { name: "Dr. Ibrahim Siddiqui", specialty: "Dermatologist", image: "mDoc4.jpg", description: "Expert in skin diseases and cosmetic dermatology" },
+    
+    // Orthopedic (2 doctors)
+    { name: "Dr. Hamza Ali", specialty: "Orthopedic Surgeon", image: "mDoc4.jpg", description: "Treats bone fractures, arthritis, and joint pain" },
+    { name: "Dr. Zainab Raza", specialty: "Orthopedic Surgeon", image: "fdoc5.jpg", description: "Specialist in spine disorders and joint replacement" },
+    
+    // Gynecology (2 doctors)
+    { name: "Dr. Noor Fatima", specialty: "Gynecologist", image: "fdoc5.jpg", description: "Women's health, pregnancy care, and menstrual problems" },
+    { name: "Dr. Mariam Usman", specialty: "Gynecologist", image: "fdoc6.jpg", description: "Expert in PCOS, fertility, and prenatal care" },
+    
+    // General Physician (2 doctors)
+    { name: "Dr. Ali Rehman", specialty: "General Physician", image: "general.jpg", description: "Treats fever, cold, flu, diabetes, and routine checkups" },
+    { name: "Dr. Hina Tariq", specialty: "General Physician", image: "fdoc6.jpg", description: "Manages blood pressure, thyroid, and chronic diseases" },
+    
+    // Pediatrics (2 doctors)
+    { name: "Dr. Maryam Shaikh", specialty: "Pediatrician", image: "fdoc6.jpg", description: "Child specialist for fever, cough, and vaccinations" },
+    { name: "Dr. Bilal Ahmed", specialty: "Pediatrician", image: "dentist.jpg", description: "Expert in children's growth, allergies, and nutrition" },
+    
+    // ENT (2 doctors)
+    { name: "Dr. Ahmed Raza", specialty: "ENT Specialist", image: "mDoc1.jpg", description: "Treats ear, nose, throat problems and sinusitis" },
+    { name: "Dr. Sana Malik", specialty: "ENT Specialist", image: "fdoc5.jpg", description: "Expert in hearing loss, tonsillitis, and snoring" },
+    
+    // Psychology (2 doctors)
+    { name: "Dr. Nimra Iqbal", specialty: "Psychologist", image: "fDoc2.jpg", description: "Treats depression, anxiety, stress, and relationship issues" },
+    { name: "Dr. Omar Farooq", specialty: "Psychologist", image: "mDoc4.jpg", description: "Specialist in mental health and behavioral therapy" },
+    
+    // Dental (2 doctors)
+    { name: "Dr. Bilal Saeed", specialty: "Dental Surgeon", image: "dentist.jpg", description: "Treats tooth pain, cavities, and root canal" },
+    { name: "Dr. Anum Khalid", specialty: "Dental Surgeon", image: "fdoc5.jpg", description: "Expert in gum diseases, teeth whitening, and braces" }
+  ];
+
+  function displayDoctors(doctors) {
+    const grid = document.getElementById('doctorsGrid');
+    
+    let html = '';
+    doctors.forEach(doctor => {
+      html += `
+        <div class="doctor-card">
+          <img src="${doctor.image}" alt="${doctor.name}">
+          <div class="doctor-name">${doctor.name}</div>
+          <div class="doctor-speciality">${doctor.specialty}</div>
+          <div class="doctor-description">${doctor.description}</div>
+          <button class="btn" onclick="bookAppointment('${doctor.name}')">📅 Book Appointment</button>
+        </div>
+      `;
+    });
+    
+    grid.innerHTML = html;
+  }
+
+  // Load doctors on page load
+  window.onload = function() {
+    displayDoctors(doctorsData);
+  };
+
+  function bookAppointment(doctorName) {
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    
+    if (!isLoggedIn || isLoggedIn !== 'true') {
+      // Save doctor name and redirect to login
+      localStorage.setItem("selectedDoctor", doctorName);
+      localStorage.setItem("redirectAfterLogin", "appointment.html");
+      window.location.href = "login.html";
+    } else {
+      // Already logged in, go directly to appointment
+      localStorage.setItem("selectedDoctor", doctorName);
+      window.location.href = "appointment.html";
+    }
+  }
+</script>
+
+</body>
+</html>
