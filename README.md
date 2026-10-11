@@ -1,4 +1,4 @@
-# 🏥 CareCompass — Medical Healthcare System
+#   CareCompass — Medical Healthcare System
 
 <div align="center">
 
