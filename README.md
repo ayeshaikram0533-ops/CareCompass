@@ -135,7 +135,7 @@ CareCompass/
 ```bash
 git clone https://github.com/yourusername/CareCompass.git
 cd CareCompass
-
+---
 
 ### Step 2: Install Backend Dependencies
 cd backend
