@@ -130,51 +130,45 @@ CareCompass/
 - **MongoDB** (local or Atlas) — [Download](https://www.mongodb.com/try/download/community)
 - **Git** — [Download](https://git-scm.com/)
 
-### Step 1: Clone the Repository
 
-```bash
+
+Step 1: Clone the Repository
+
+
 git clone https://github.com/yourusername/CareCompass.git
 cd CareCompass
----
 
-### Step 2: Step 2: Install Backend Dependencies
+Step 2: Install Backend Dependencies
+
 cd backend
 npm install
 
+Step 3: Set Up Environment Variables
 
-### Step 3: Set Up Environment Variables
 Create a .env file in the backend folder:
-
-env
 MONGO_URI=mongodb://localhost:27017/carecompass
 PORT=5000
 
-### Step 4: Start MongoDB
-Windows:
 
-bash
+Step 4: Start MongoDB
+
 net start MongoDB
 
-Mac/Linux:
+Step 5: Run the Backend Server
 
-bash
-sudo systemctl start mongod
-
-### Step 5: Run the Backend Server
-bash
 node server.js
 
 You should see:
-
-text
 starting server
 MongoDB connected
 Server running on port 5000
 
-### Step 6: Run the Frontend
 
+Step 6: Run the Frontend
 Open any HTML file from the frontend folder in your browser.
+
 OR use Live Server in VS Code for a better experience.
+
 
 ## Usage
 
