@@ -137,7 +137,7 @@ git clone https://github.com/yourusername/CareCompass.git
 cd CareCompass
 ---
 
-### Step 2: Install Backend Dependencies
+### Step 2: Step 2: Install Backend Dependencies
 cd backend
 npm install
 
