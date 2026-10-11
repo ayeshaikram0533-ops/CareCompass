@@ -1,0 +1,665 @@
+<title>Book Appointment | CareCompass</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .appointment-box {
+      background: white;
+      padding: 2rem 2rem 2.5rem;
+      border-radius: 32px;
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      width: 560px;
+      max-width: 100%;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .top-buttons {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .back-btn, .logout-btn {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .back-btn {
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+
+    .back-btn:hover {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+    }
+
+    .logout-btn {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .logout-btn:hover {
+      background: #fecaca;
+      transform: translateY(-1px);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0a1a3c;
+      margin: 0.5rem 0 1.2rem 0;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .user-info {
+      background: #eef2ff;
+      padding: 12px 16px;
+      border-radius: 40px;
+      margin-bottom: 28px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #1e3a8a;
+      display: inline-block;
+      width: 100%;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      margin: 8px 0 14px 0;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      background: #ffffff;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #00b4d8;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #0f172a;
+      margin-left: 6px;
+      display: block;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(95deg, #0f2b4d, #1e4a76);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 22px;
+      transition: all 0.25s;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(95deg, #1e4a76, #0f2b4d);
+      transform: scale(0.98);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+
+    .success-message, .error-message {
+      text-align: center;
+      font-weight: 600;
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 40px;
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    .success-message {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .error-message {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .warning-text {
+      color: #b45309;
+      background: #ffedd5;
+      padding: 10px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      margin: 6px 0 10px 0;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    option:disabled {
+      background-color: #f1f5f9;
+      color: #94a3b8;
+    }
+
+    .field-note {
+      font-size: 0.7rem;
+      color: #475569;
+      margin: -8px 0 8px 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="appointment-box">
+  <div class="top-buttons">
+    <button class="back-btn" onclick="goBack()">← Back to Doctors</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+  <h2>📅 Book Appointment</h2>
+  
+  <div class="user-info" id="userInfo"></div>
+
+  <form id="appointmentForm">
+    <input type="text" id="name" placeholder="Full Name" required autocomplete="name">
+    
+    <input type="email" id="email" placeholder="Email" required readonly>
+    
+    <input type="tel" id="phone" placeholder="Phone Number" required>
+    
+    <select id="doctor" required>
+      <option value="">Select Doctor</option>
+      <option value="Dr. Sarah Ahmed">Dr. Sarah Ahmed (Cardiologist)</option>
+      <option value="Dr. Yusuf Hassan">Dr. Yusuf Hassan (Cardiologist)</option>
+      <option value="Dr. Usman Khan">Dr. Usman Khan (Neurologist)</option>
+      <option value="Dr. Fatima Zahra">Dr. Fatima Zahra (Neurologist)</option>
+      <option value="Dr. Ayesha Malik">Dr. Ayesha Malik (Dermatologist)</option>
+      <option value="Dr. Ibrahim Siddiqui">Dr. Ibrahim Siddiqui (Dermatologist)</option>
+      <option value="Dr. Hamza Ali">Dr. Hamza Ali (Orthopedic Surgeon)</option>
+      <option value="Dr. Zainab Raza">Dr. Zainab Raza (Orthopedic Surgeon)</option>
+      <option value="Dr. Noor Fatima">Dr. Noor Fatima (Gynecologist)</option>
+      <option value="Dr. Mariam Usman">Dr. Mariam Usman (Gynecologist)</option>
+      <option value="Dr. Ali Rehman">Dr. Ali Rehman (General Physician)</option>
+      <option value="Dr. Hina Tariq">Dr. Hina Tariq (General Physician)</option>
+      <option value="Dr. Maryam Shaikh">Dr. Maryam Shaikh (Pediatrician)</option>
+      <option value="Dr. Bilal Ahmed">Dr. Bilal Ahmed (Pediatrician)</option>
+      <option value="Dr. Ahmed Raza">Dr. Ahmed Raza (ENT Specialist)</option>
+      <option value="Dr. Sana Malik">Dr. Sana Malik (ENT Specialist)</option>
+      <option value="Dr. Nimra Iqbal">Dr. Nimra Iqbal (Psychologist)</option>
+      <option value="Dr. Omar Farooq">Dr. Omar Farooq (Psychologist)</option>
+      <option value="Dr. Bilal Saeed">Dr. Bilal Saeed (Dental Surgeon)</option>
+      <option value="Dr. Anum Khalid">Dr. Anum Khalid (Dental Surgeon)</option>
+    </select>
+
+    <input type="date" id="date" required>
+    
+    <select id="time" required>
+      <option value="">Select Time</option>
+      <option value="09:00 AM">09:00 AM</option>
+      <option value="10:00 AM">10:00 AM</option>
+      <option value="11:00 AM">11:00 AM</option>
+      <option value="12:00 PM">12:00 PM</option>
+      <option value="02:00 PM">02:00 PM</option>
+      <option value="03:00 PM">03:00 PM</option>
+      <option value="04:00 PM">04:00 PM</option>
+      <option value="05:00 PM">05:00 PM</option>
+    </select>
+    
+    <div id="timeWarning" class="warning-text">
+      ⚠️ All time slots for today have passed. Please select a future date.
+    </div>
+    
+    <textarea id="symptoms" placeholder="Describe your symptoms (e.g., fever, cough, pain)" rows="3" required></textarea>
+
+    <button type="submit">✅ Confirm Appointment</button>
+    <div class="success-message" id="successMessage">✅ Appointment booked successfully!</div>
+    <div class="error-message" id="errorMessage">❌ Something went wrong!</div>
+  </form>
+</div>
+
+<script>
+  // ======================== GLOBAL FUNCTIONS & LOGIC ========================
+  
+  // ----- Helper: Parse time "hh:mm AM/PM" to minutes since midnight -----
+  function convertTimeToMinutes(timeStr) {
+    // Ensure format: "09:00 AM" or "02:00 PM"
+    const parts = timeStr.trim().split(' ');
+    if (parts.length !== 2) return 0;
+    const timePart = parts[0];   // "09:00"
+    const period = parts[1];      // "AM" / "PM"
+    let [hour, minute] = timePart.split(':').map(Number);
+    
+    if (period === 'PM' && hour !== 12) {
+      hour += 12;
+    }
+    if (period === 'AM' && hour === 12) {
+      hour = 0;
+    }
+    return (hour * 60) + minute;
+  }
+  
+  // ----- Get current time in minutes (local) -----
+  function getCurrentMinutes() {
+    const now = new Date();
+    return (now.getHours() * 60) + now.getMinutes();
+  }
+  
+  // ----- Core: update time slot disable/enable based on selected date & current time -----
+  function refreshTimeSlotAvailability() {
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+    const timeWarningDiv = document.getElementById('timeWarning');
+    
+    if (!dateInput.value) {
+      // No date selected -> disable all time options (except placeholder)
+      for (let i = 0; i < timeSelect.options.length; i++) {
+        const opt = timeSelect.options[i];
+        if (opt.value !== "") {
+          opt.disabled = true;
+        }
+      }
+      timeSelect.value = "";
+      timeWarningDiv.style.display = 'none';
+      return;
+    }
+    
+    const selectedDateStr = dateInput.value;
+    const todayDateObj = new Date();
+    todayDateObj.setHours(0, 0, 0, 0);
+    const selectedDateObj = new Date(selectedDateStr);
+    selectedDateObj.setHours(0, 0, 0, 0);
+    
+    const isToday = (selectedDateObj.getTime() === todayDateObj.getTime());
+    const isFutureDate = (selectedDateObj > todayDateObj);
+    
+    // For future dates: ALL slots are enabled (no time restrictions)
+    if (isFutureDate) {
+      for (let i = 0; i < timeSelect.options.length; i++) {
+        const opt = timeSelect.options[i];
+        if (opt.value !== "") {
+          opt.disabled = false;
+        }
+      }
+      timeWarningDiv.style.display = 'none';
+      // Edge: if currently selected time was disabled from prior state, keep valid
+      if (timeSelect.value && document.querySelector(`#time option[value="${timeSelect.value}"]`)?.disabled === false) {
+        // keep as is
+      } else if (timeSelect.value) {
+        timeSelect.value = "";
+      }
+      return;
+    }
+    
+    // For TODAY: enable only upcoming slots (strictly after current time)
+    if (isToday) {
+      const currentMinutes = getCurrentMinutes();
+      let anySlotAvailable = false;
+      
+      for (let i = 0; i < timeSelect.options.length; i++) {
+        const opt = timeSelect.options[i];
+        if (opt.value !== "") {
+          const slotMinutes = convertTimeToMinutes(opt.value);
+          // Enable ONLY if slot time > current time (strictly greater, passed times disabled)
+          if (slotMinutes > currentMinutes) {
+            opt.disabled = false;
+            anySlotAvailable = true;
+          } else {
+            opt.disabled = true;
+          }
+        }
+      }
+      
+      // Show warning if zero upcoming slots
+      if (!anySlotAvailable) {
+        timeWarningDiv.style.display = 'block';
+        // clear selected time if it's disabled
+        if (timeSelect.value) {
+          const selectedOption = Array.from(timeSelect.options).find(opt => opt.value === timeSelect.value);
+          if (!selectedOption || selectedOption.disabled) {
+            timeSelect.value = "";
+          }
+        }
+      } else {
+        timeWarningDiv.style.display = 'none';
+        // If current selected time is disabled, reset selection to empty
+        if (timeSelect.value) {
+          const selectedOpt = Array.from(timeSelect.options).find(opt => opt.value === timeSelect.value);
+          if (selectedOpt && selectedOpt.disabled) {
+            timeSelect.value = "";
+          }
+        }
+      }
+      return;
+    }
+    
+    // Past dates (should not happen because min date is today, but safeguard)
+    if (selectedDateObj < todayDateObj) {
+      for (let i = 0; i < timeSelect.options.length; i++) {
+        const opt = timeSelect.options[i];
+        if (opt.value !== "") opt.disabled = true;
+      }
+      timeSelect.value = "";
+      timeWarningDiv.style.display = 'none';
+    }
+  }
+  
+  // ----- Validate date constraints + force re-evaluate time slots -----
+  function onDateChangeHandler() {
+    const dateField = document.getElementById('date');
+    const selectedRaw = dateField.value;
+    if (!selectedRaw) return;
+    
+    const selectedDate = new Date(selectedRaw);
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const maxAllowed = new Date();
+    maxAllowed.setDate(todayStart.getDate() + 30);
+    maxAllowed.setHours(0, 0, 0, 0);
+    
+    // Block past dates
+    if (selectedDate < todayStart) {
+      alert('📅 Past dates cannot be booked. Please select today or a future date.');
+      dateField.value = todayStart.toISOString().split('T')[0];
+      // recursively update availability after correction
+      refreshTimeSlotAvailability();
+      return;
+    }
+    
+    // Block beyond 30 days
+    if (selectedDate > maxAllowed) {
+      alert(`⛔ Appointments can be booked only up to 30 days in advance.`);
+      dateField.value = todayStart.toISOString().split('T')[0];
+      refreshTimeSlotAvailability();
+      return;
+    }
+    
+    // Valid date: refresh slot availability (today/future logic)
+    refreshTimeSlotAvailability();
+  }
+  
+  // ========== CHECK LOGIN & POPULATE USER ==========
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const loggedInUser = localStorage.getItem('userName');
+  const userEmail = localStorage.getItem('userEmail');
+  
+  if (!isLoggedIn || isLoggedIn !== 'true') {
+    alert('🔐 Please login first to book an appointment');
+    window.location.href = 'login.html';
+  }
+  
+  if (loggedInUser) {
+    document.getElementById('userInfo').innerHTML = `👋 Welcome, ${loggedInUser} !`;
+  }
+  
+  if (userEmail) {
+    document.getElementById('email').value = userEmail;
+  }
+  
+  // Pre-fill doctor if coming from doctors page
+  const selectedDoctorFromStorage = localStorage.getItem('selectedDoctor');
+  if (selectedDoctorFromStorage) {
+    const doctorSelect = document.getElementById('doctor');
+    for (let option of doctorSelect.options) {
+      if (option.value === selectedDoctorFromStorage) {
+        option.selected = true;
+        break;
+      }
+    }
+    localStorage.removeItem('selectedDoctor');  // clear after one use
+  }
+  
+  // ========== SETUP DATE ATTRIBUTES ==========
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+  
+  const maxFuture = new Date();
+  maxFuture.setDate(today.getDate() + 30);
+  const maxY = maxFuture.getFullYear();
+  const maxM = String(maxFuture.getMonth() + 1).padStart(2, '0');
+  const maxD = String(maxFuture.getDate()).padStart(2, '0');
+  const maxDateStr = `${maxY}-${maxM}-${maxD}`;
+  
+  const dateInputField = document.getElementById('date');
+  dateInputField.min = todayStr;
+  dateInputField.max = maxDateStr;
+  
+  // ========== ATTACH EVENT LISTENERS ==========
+  dateInputField.addEventListener('change', onDateChangeHandler);
+  
+  const timeSelectElement = document.getElementById('time');
+  // Also update when user focuses/clicks on time dropdown to ensure fresh state
+  timeSelectElement.addEventListener('focus', () => refreshTimeSlotAvailability());
+  timeSelectElement.addEventListener('click', () => refreshTimeSlotAvailability());
+  
+  // initial call on page load to set proper enable/disable based on default (empty date)
+  refreshTimeSlotAvailability();
+  
+  // Edge initial: if date is empty set a default hint but not auto-set; but to improve UX we set minimal to today but no auto-fill date?
+  // However keep as is; as soon as user picks date it works perfectly.
+  
+  // If there is any previous incomplete selected date after reload, run validation again
+  if (dateInputField.value) {
+    onDateChangeHandler();
+  } else {
+    // If no date selected, all times disabled (good)
+    refreshTimeSlotAvailability();
+  }
+  
+  // ========== ADDITIONAL PROTECTION for manual selection of time on today ==========
+  // Before form submission, double check time validity for today
+  function isTimeSlotValidForSelectedDate() {
+    const dateVal = dateInputField.value;
+    const timeVal = timeSelectElement.value;
+    if (!dateVal || !timeVal) return false;
+    
+    const selectedDateObj = new Date(dateVal);
+    const todayObj = new Date();
+    const isTodayCheck = (selectedDateObj.toDateString() === todayObj.toDateString());
+    
+    if (isTodayCheck) {
+      const currentMinutes = getCurrentMinutes();
+      const slotMinutes = convertTimeToMinutes(timeVal);
+      if (slotMinutes <= currentMinutes) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  // ========== LOGOUT & BACK ==========
+  function logout() {
+    if (confirm('🚪 Are you sure you want to logout?')) {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('userName');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('selectedDoctor');
+      window.location.href = 'login.html';
+    }
+  }
+  
+  function goBack() {
+    window.location.href = 'doctors.html';
+  }
+  
+  // ========== APPOINTMENT BOOKING (POST) ==========
+  const form = document.getElementById('appointmentForm');
+  const successMsgDiv = document.getElementById('successMessage');
+  const errorMsgDiv = document.getElementById('errorMessage');
+  
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    errorMsgDiv.style.display = 'none';
+    successMsgDiv.style.display = 'none';
+    
+    // Gather fields
+    const patientName = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const doctorName = document.getElementById('doctor').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const symptoms = document.getElementById('symptoms').value.trim();
+    
+    if (!patientName || !email || !phone || !doctorName || !date || !time || !symptoms) {
+      alert('❗ Please fill all fields correctly.');
+      return;
+    }
+    
+    // Date range validation (extra safety)
+    const selectedDateObj = new Date(date);
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const maxDateLimit = new Date();
+    maxDateLimit.setDate(todayStart.getDate() + 30);
+    maxDateLimit.setHours(0, 0, 0, 0);
+    
+    if (selectedDateObj < todayStart) {
+      alert('📛 Cannot book appointment for past dates!');
+      return;
+    }
+    if (selectedDateObj > maxDateLimit) {
+      alert(`📛 Appointments beyond 30 days are not allowed.`);
+      return;
+    }
+    
+    // CRITICAL: For today, double-check time is not disabled/passed
+    const isTodaySelected = (selectedDateObj.toDateString() === new Date().toDateString());
+    if (isTodaySelected) {
+      const currentMinutes = getCurrentMinutes();
+      const slotMinutes = convertTimeToMinutes(time);
+      if (slotMinutes <= currentMinutes) {
+        alert(`⏰ This time slot (${time}) has already passed today. Please select an upcoming time or a future date.`);
+        // refresh slots visually
+        refreshTimeSlotAvailability();
+        return;
+      }
+      // additionally, check if the selected option is actually disabled due to any race condition
+      const selectedOptionElem = Array.from(timeSelectElement.options).find(opt => opt.value === time);
+      if (selectedOptionElem && selectedOptionElem.disabled) {
+        alert(`⏰ Time slot ${time} is no longer available. Please choose another slot.`);
+        refreshTimeSlotAvailability();
+        return;
+      }
+    }
+    
+    // Prepare payload
+    const payload = {
+      patientName, email, phone, doctorName, date, time, symptoms
+    };
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        successMsgDiv.style.display = 'block';
+        successMsgDiv.textContent = data.message || '✅ Appointment booked successfully!';
+        
+        // store last booking details for payment page
+        localStorage.setItem('lastBooking', JSON.stringify({
+          doctorName, date, time, amount: 500
+        }));
+        
+        // Reset only specific fields but keep email and doctor prefill logical? reset form partially
+        form.reset();
+        // restore email and doctor prefill if needed
+        document.getElementById('email').value = userEmail || '';
+        if (selectedDoctorFromStorage) {
+          const docSelect = document.getElementById('doctor');
+          for (let opt of docSelect.options) {
+            if (opt.value === selectedDoctorFromStorage) {
+              opt.selected = true;
+              break;
+            }
+          }
+        } else if (doctorName) {
+          // keep doctor if reset? but fine, we keep it from previous selection? actually full reset clears doctor,
+          // but user might want to book another. Let's keep doctor as previously selected? helpful but optional.
+          const docSelect = document.getElementById('doctor');
+          for (let opt of docSelect.options) {
+            if (opt.value === doctorName) {
+              opt.selected = true;
+              break;
+            }
+          }
+        }
+        // date/time cleared anyway, refresh time availability after reset (date empty)
+        refreshTimeSlotAvailability();
+        
+        setTimeout(() => {
+          successMsgDiv.style.display = 'none';
+          if (confirm('✅ Appointment scheduled! Proceed to payment gateway? (₹500 consultation fee)')) {
+            window.location.href = 'payment.html';
+          }
+        }, 800);
+      } else {
+        errorMsgDiv.style.display = 'block';
+        errorMsgDiv.textContent = '❌ ' + (data.message || 'Booking failed. Try again.');
+        setTimeout(() => {
+          errorMsgDiv.style.display = 'none';
+        }, 3500);
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+      errorMsgDiv.style.display = 'block';
+      errorMsgDiv.textContent = '⚠️ Cannot connect to server. Please verify backend is running at localhost:5000';
+      setTimeout(() => {
+        errorMsgDiv.style.display = 'none';
+      }, 4000);
+    }
+  });
+  
+  // Additional helper: if date is cleared via any means, re-run time disable
+  window.addEventListener('load', () => {
+    // if date field is empty from start, all times disabled
+    if (!dateInputField.value) {
+      refreshTimeSlotAvailability();
+    }
+    // Force ensuring email readonly and user info present
+    if (userEmail) document.getElementById('email').value = userEmail;
+  });
+</script>
+
+</body>
+</html>
