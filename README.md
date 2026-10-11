@@ -64,7 +64,7 @@ The system features a unique **"2 patients per doctor per time slot"** rule, ens
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 ### Frontend
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
@@ -136,18 +136,20 @@ CareCompass/
 git clone https://github.com/yourusername/CareCompass.git
 cd CareCompass
 
+
+### Step 2: Install Backend Dependencies
 cd backend
 npm install
 
-Step 3: Set Up Environment Variables
 
+### Step 3: Set Up Environment Variables
 Create a .env file in the backend folder:
 
 env
 MONGO_URI=mongodb://localhost:27017/carecompass
 PORT=5000
 
-Step 4: Start MongoDB
+### Step 4: Start MongoDB
 Windows:
 
 bash
@@ -158,7 +160,7 @@ Mac/Linux:
 bash
 sudo systemctl start mongod
 
-Step 5: Run the Backend Server
+### Step 5: Run the Backend Server
 bash
 node server.js
 
@@ -169,61 +171,53 @@ starting server
 MongoDB connected
 Server running on port 5000
 
-Step 6: Run the Frontend
-Open any HTML file from the frontend folder in your browser.
+### Step 6: Run the Frontend
 
+Open any HTML file from the frontend folder in your browser.
 OR use Live Server in VS Code for a better experience.
 
- Usage
-For Patients
+## Usage
+
+
+### For Patients
+
 1.Go to Signup page and create an account
-
 2.Login with your credentials
-
 3.Browse Doctors and click Book Appointment
-
 4.Fill in the appointment form (name, phone, gender, age, date, time, symptoms)
-
 5.Click Book Appointment
-
 6.Proceed to Payment and enter card details
-
 7.View your appointments on the Patient Dashboard
 
-For Doctors
+### For Doctors
+
 1.Login with doctor credentials
-
 2.View Today's, Upcoming, and All Appointments
-
 3.Update appointment status from the dropdown
-
 4.Add Medical Notes for patients
 
-For Admins
+### For Admins
+
 1.Login with admin credentials
-
 2.View All Appointments in the system
-
 3.Confirm or Cancel any appointment
-
 4.View Contact Messages and Payments
 
-What I Learned
+
+## What I Learned
+
 Full-Stack Development — Building both frontend and backend
-
 Database Design — MongoDB schema design and relationships
-
 Authentication — Session management with localStorage
-
 API Development — RESTful API design with Express
-
 Problem Solving — Handling race conditions, validations
-
 UI/UX Design — Creating responsive, user-friendly interfaces
-
 Project Management — Documentation, testing, and deployment
 
-Future Enhancements
+
+
+## Future Enhancements
+
 □ Email and SMS notifications for appointment reminders
 □ Video consultation (Telemedicine)
 □ Mobile application (Android & iOS)
@@ -235,8 +229,8 @@ Future Enhancements
 
 
 
-Author
-Ayesha Ikram
+## Author
+### Ayesha Ikram
  BS Computer Science — Government Graduate College for Women, Samundri
  Full-Stack Web Developer
  Email: ayeshaikram0533@gmail.com
@@ -247,7 +241,7 @@ Ayesha Ikram
 
 
 
-Supervisor: Miss Farhat Naz
+### Supervisor: Miss Farhat Naz
 Department: Computer Science, Government Graduate College for Women, Samundri
 Project Partner: Saleha Rasheed, Sobia Naz
 Special Thanks: First of All to Allah Almighty who made me capable of achiving something like this.
@@ -261,11 +255,10 @@ Special Thanks: First of All to Allah Almighty who made me capable of achiving s
 
 
 
-<div align="center">
- If you like this project, please give it a star! ⭐
+
+##  If you like this project, please give it a star! ⭐
 Made with ❤️ by Ayesha Ikram
 
-</div> ```
 
 
 
