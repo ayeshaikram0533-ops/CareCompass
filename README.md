@@ -15,47 +15,47 @@
 
 ---
 
-## 📖 About The Project
+## About The Project
 
 **CareCompass** is a comprehensive Medical Healthcare System designed to simplify the process of finding doctors and booking appointments online. It eliminates the need for physical visits or phone calls by providing a seamless digital platform for patients, doctors, and administrators.
 
 The system features a unique **"2 patients per doctor per time slot"** rule, ensuring efficient utilization of doctor's time while maintaining quality patient care.
 
-### 🎯 Project Highlights
+###  Project Highlights
 
-- ✅ **Final Year Project** — Graded **A**
-- ✅ **Full-Stack Web Application** built from scratch
-- ✅ **Unique Logic** — 2 patients per slot rule
-- ✅ **Role-Based Dashboards** — Patient, Doctor, Admin
-- ✅ **Responsive Design** — Works on all devices
+-  **Final Year Project** — Graded **A**
+-  **Full-Stack Web Application** built from scratch
+-  **Unique Logic** — 2 patients per slot rule
+-  **Role-Based Dashboards** — Patient, Doctor, Admin
+-  **Responsive Design** — Works on all devices
 
 ---
 
-## ✨ Features
+##  Features
 
-### 👤 For Patients
-- 📝 Register and login securely
-- 🔍 Browse 20+ doctors across 10 specialties
-- 📅 Book appointments with real-time availability checks
-- 💳 Make online payments with card validation
-- 📊 View appointment history and status
-- ❌ Cancel appointments anytime
-- 📚 Access disease information and medicine guides
+###  For Patients
+-  Register and login securely
+-  Browse 20+ doctors across 10 specialties
+-  Book appointments with real-time availability checks
+-  Make online payments with card validation
+-  View appointment history and status
+-  Cancel appointments anytime
+-  Access disease information and medicine guides
 
-### 👨‍⚕️ For Doctors
-- 🔐 Secure doctor login
-- 📋 View today's, upcoming, and all appointments
-- 🔄 Update appointment status (Pending → Confirmed → Completed → Cancelled)
-- 📝 Add medical notes for patients
+###  For Doctors
+-  Secure doctor login
+-  View today's, upcoming, and all appointments
+-  Update appointment status (Pending → Confirmed → Completed → Cancelled)
+-  Add medical notes for patients
 
-### 👑 For Administrators
-- 📊 View all appointments in the system
-- ✅ Confirm or cancel any appointment
-- 👥 View all registered users
-- 💰 View all payment transactions
-- 📧 View contact messages from users
+###  For Administrators
+-  View all appointments in the system
+-  Confirm or cancel any appointment
+-  View all registered users
+-  View all payment transactions
+-  View contact messages from users
 
-### 🎯 Unique Features
+###  Unique Features
 - **2 Patients Per Slot Rule** — Maximum 2 patients can book the same doctor at the same time
 - **Smart Date Validation** — Cannot book past dates or dates beyond 30 days
 - **Time Slot Validation** — Passed time slots are automatically disabled
@@ -87,7 +87,7 @@ The system features a unique **"2 patients per doctor per time slot"** rule, ens
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 CareCompass/
 │
 ├── frontend/
@@ -123,7 +123,7 @@ CareCompass/
 
 ---
 
-## 🚀 Installation
+##  Installation
 
 ### Prerequisites
 - **Node.js** (v14 or higher) — [Download](https://nodejs.org/)
