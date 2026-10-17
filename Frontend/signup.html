@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | CareCompass</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e6ecee, #06353b);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .signup-box {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 450px;
+      max-width: 90%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0a1a3c;
+      margin-bottom: 30px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      border-color: #00bfff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #0a1a3c, #1e3a6b);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #00bfff;
+      color: #0a1a3c;
+    }
+
+    .error {
+      color: red;
+      margin-top: 5px;
+      font-size: 12px;
+      display: none;
+    }
+
+    .success {
+      color: green;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    .password-requirements {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 5px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .req-met {
+      color: green;
+    }
+
+    .req-not-met {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="signup-box">
+  <h2>📝 Create Account</h2>
+  
+  <form id="signupForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <div class="error" id="nameError">Name should only contain letters and spaces</div>
+    
+    <input type="email" id="email" placeholder="Email" required>
+    <div class="error" id="emailError">Please enter a valid email</div>
+    
+    <input type="tel" id="phone" placeholder="Phone Number">
+    
+    <input type="password" id="password" placeholder="Password" required>
+    <div class="password-requirements" id="passwordReq">
+      ⚠️ Password must have:
+      <span id="lengthReq" class="req-not-met">• At least 8 characters</span>
+    </div>
+    <div class="error" id="passwordError">Password must be at least 8 characters</div>
+    
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+    <div class="error" id="confirmError">Passwords do not match</div>
+    
+    <select id="role">
+      <option value="patient">Patient</option>
+      <option value="doctor">Doctor</option>
+    </select>
+    
+    <button type="submit">Sign Up</button>
+  </form>
+  
+  <div class="success" id="successMsg">✅ Account created successfully! Redirecting to login...</div>
+  <p style="text-align: center; margin-top: 20px; font-size: 14px;">
+    Already have an account? <a href="login.html" style="color: #00bfff;">Login</a>
+  </p>
+</div>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirmPassword');
+  
+  const nameError = document.getElementById('nameError');
+  const emailError = document.getElementById('emailError');
+  const passwordError = document.getElementById('passwordError');
+  const confirmError = document.getElementById('confirmError');
+  const successMsg = document.getElementById('successMsg');
+  
+  const lengthReq = document.getElementById('lengthReq');
+  
+  // ========== PROBLEM 1: Name Validation (Only Letters and Spaces) ==========
+  function validateName(name) {
+    const nameRegex = /^[A-Za-z\s]+$/;
+    return nameRegex.test(name);
+  }
+  
+  nameInput.addEventListener('input', function() {
+    const name = this.value;
+    if (name && !validateName(name)) {
+      nameError.style.display = 'block';
+      this.style.borderColor = 'red';
+    } else {
+      nameError.style.display = 'none';
+      this.style.borderColor = '#e0e0e0';
+    }
+  });
+  
+  // ========== PROBLEM 2: Password Length Validation (Minimum 8 characters) ==========
+  function validatePassword(password) {
+    return password.length >= 8;
+  }
+  
+  passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    
+    if (validatePassword(password)) {
+      lengthReq.className = 'req-met';
+      lengthReq.innerHTML = '✅ At least 8 characters';
+      passwordError.style.display = 'none';
+      this.style.borderColor = '#4caf50';
+    } else {
+      lengthReq.className = 'req-not-met';
+      lengthReq.innerHTML = '❌ At least 8 characters';
+      passwordError.style.display = 'block';
+      this.style.borderColor = 'red';
+    }
+    
+    // Also check confirm password match
+    if (confirmInput.value) {
+      if (password === confirmInput.value) {
+        confirmError.style.display = 'none';
+        confirmInput.style.borderColor = '#4caf50';
+      } else {
+        confirmError.style.display = 'block';
+        confirmInput.style.borderColor = 'red';
+      }
+    }
+  });
+  
+  // Confirm password validation
+  confirmInput.addEventListener('input', function() {
+    if (this.value === passwordInput.value && validatePassword(passwordInput.value)) {
+      confirmError.style.display = 'none';
+      this.style.borderColor = '#4caf50';
+    } else {
+      confirmError.style.display = 'block';
+      this.style.borderColor = 'red';
+    }
+  });
+  
+  // Email validation
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+  emailInput.addEventListener('input', function() {
+    if (this.value && !validateEmail(this.value)) {
+      emailError.style.display = 'block';
+      this.style.borderColor = 'red';
+    } else {
+      emailError.style.display = 'none';
+      this.style.borderColor = '#e0e0e0';
+    }
+  });
+  
+  // Form submit
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmInput.value;
+    const phone = document.getElementById('phone').value;
+    const role = document.getElementById('role').value;
+    
+    // Clear previous errors
+    nameError.style.display = 'none';
+    emailError.style.display = 'none';
+    passwordError.style.display = 'none';
+    confirmError.style.display = 'none';
+    successMsg.style.display = 'none';
+    
+    let isValid = true;
+    
+    // Name validation
+    if (!name || !validateName(name)) {
+      nameError.style.display = 'block';
+      isValid = false;
+    }
+    
+    // Email validation
+    if (!email || !validateEmail(email)) {
+      emailError.style.display = 'block';
+      isValid = false;
+    }
+    
+    // Password validation (minimum 8 characters)
+    if (!password || !validatePassword(password)) {
+      passwordError.style.display = 'block';
+      isValid = false;
+    }
+    
+    // Confirm password validation
+    if (password !== confirmPassword) {
+      confirmError.style.display = 'block';
+      isValid = false;
+    }
+    
+    if (!isValid) return;
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, phone, role })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        successMsg.style.display = 'block';
+        form.reset();
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      } else {
+        alert(data.message);
+      }
+      
+    } catch (error) {
+      alert('Server error. Please try again.');
+    }
+  });
+</script>
+
+</body>
+</html>
