@@ -1,0 +1,654 @@
+<title>CareCompass - Contact</title>
+
+  <style>
+    /* ========== GLOBAL STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --dark: #0a1a3c;
+      --deep: #1e3a6b;
+      --accent: #00bfff;
+      --danger: #f02c2c;
+      --soft-bg: #b0c3db;
+      --card-grad: linear-gradient(135deg, #ffffff, #d9f1ff);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(10, 26, 60, 0.12);
+      --shadow-hover: 0 20px 40px rgba(10, 26, 60, 0.2);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--dark);
+      background: linear-gradient(180deg, #13376d, #d6dadd 60%);
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR STYLES (SAME AS INDEX) ========== */
+    nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      background: linear-gradient(90deg, #0a1a3c, #1e3a6b);
+      border-bottom: 3px solid #00bfff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      border-radius: 0 0 14px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .title {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .title span {
+      color: #00bfff;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 35px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    nav ul li {
+      display: inline-block;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #00bfff;
+    }
+
+    nav ul li a:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #00bfff;
+      border-radius: 2px;
+    }
+
+    .signup-link {
+      background: linear-gradient(135deg, #00bfff, #1e6f9f);
+      padding: 8px 20px !important;
+      border-radius: 30px;
+    }
+
+    .signup-link:hover {
+      background: linear-gradient(135deg, #1e6f9f, #00bfff);
+      transform: translateY(-2px);
+    }
+
+    .signup-link:hover::after {
+      display: none;
+    }
+
+    nav ul li a.active {
+      color: #00bfff;
+    }
+
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    /* ========== CONTACT PAGE STYLES ========== */
+    .contact-hero {
+      padding: 56px 6% 30px;
+      text-align: center;
+      background: var(--soft-bg);
+      border-bottom: 3px solid var(--accent);
+      animation: fadeIn 0.8s ease both;
+    }
+
+    .contact-hero h1 {
+      margin: 6px 0;
+      font-size: 38px;
+      color: var(--dark);
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .contact-hero p {
+      max-width: 900px;
+      margin: 12px auto;
+      color: #184061;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* LAYOUT */
+    .wrap {
+      max-width: 1150px;
+      margin: 36px auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 930px) {
+      .wrap {
+        grid-template-columns: 1fr;
+        padding: 0 18px;
+      }
+    }
+
+    /* CONTACT FORM CARD */
+    .card {
+      background: var(--card-grad);
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.35s, box-shadow 0.35s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .form-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .form-sub {
+      color: #0b267e;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="text"], input[type="email"], textarea {
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 2px solid rgba(10, 26, 60, 0.12);
+      font-size: 15px;
+      transition: all 0.25s ease;
+      resize: vertical;
+      background: white;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 6px 22px rgba(34, 72, 85, 0.15);
+      transform: translateY(-2px);
+    }
+
+    textarea {
+      min-height: 140px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+      align-items: center;
+    }
+
+    .btn-send {
+      background: linear-gradient(90deg, var(--dark), var(--deep));
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-send:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .btn-clear {
+      background: transparent;
+      border: 2px solid rgba(10, 26, 60, 0.12);
+      padding: 10px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-clear:hover {
+      border-color: var(--accent);
+      background: rgba(0, 191, 255, 0.05);
+    }
+
+    .note {
+      font-size: 12px;
+      color: #234b63;
+      margin-top: 8px;
+    }
+
+    /* CONTACT INFO PANEL */
+    .info-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      padding: 25px;
+      border-radius: 20px;
+      background: var(--card-grad);
+      box-shadow: var(--shadow);
+      transition: transform 0.25s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .info-card h3 {
+      margin: 0 0 12px 0;
+      color: var(--dark);
+      font-size: 20px;
+    }
+
+    .info-line {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: #12405f;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .info-line .icon {
+      font-size: 20px;
+      min-width: 30px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(10, 26, 60, 0.08);
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .socials a:hover {
+      transform: translateY(-5px);
+      background: var(--accent);
+      color: white;
+    }
+
+    /* ========== FOOTER STYLES ========== */
+    .site-footer {
+      margin-top: 50px;
+      padding: 48px 32px 32px;
+      background: linear-gradient(90deg, var(--deep), var(--dark));
+      color: #f0f9ff;
+      text-align: center;
+      border-top: 4px solid var(--accent);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .footer-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 30px;
+      text-align: left;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-brand h3 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      color: white;
+    }
+
+    .footer-brand p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      max-width: 280px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-links-column h4 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .footer-links-column a {
+      color: #eef7ff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s, transform 0.1s;
+      display: inline-block;
+    }
+
+    .footer-links-column a:hover {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .footer-bottom {
+      font-size: 0.95rem;
+      padding-top: 20px;
+      opacity: 0.9;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .footer-bottom a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer-bottom a:hover {
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 18px;
+    }
+
+    .social-icons span {
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .social-icons span:hover {
+      transform: translateY(-3px);
+      color: var(--accent);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 15px;
+        padding: 12px 20px;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+      .title {
+        font-size: 20px;
+      }
+      .contact-hero h1 {
+        font-size: 28px;
+      }
+      .footer-main {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+      .footer-links {
+        justify-content: center;
+        gap: 32px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR (SAME AS INDEX) ========== -->
+  <nav>
+    <div class="title">Care<span>Compass</span></div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="signup.html" class="signup-link">Sign Up</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="contact-hero">
+    <h1>Contact & Support</h1>
+    <p>Have a question about a disease, need guidance, or want to get in touch? Write to us — our medical team will respond as soon as possible.</p>
+  </header>
+
+  <!-- MAIN WRAP (form + info panel) -->
+  <div class="wrap">
+
+    <!-- Left: Contact Form -->
+    <div class="card">
+      <div class="form-title">Send Us a Message</div>
+      <div class="form-sub">Please provide accurate details so we can assist you better.</div>
+
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="Full name" required />
+        <input type="email" name="email" placeholder="Email address" required />
+        <input type="text" name="subject" placeholder="Subject (e.g., Symptoms, Appointment)" />
+        <textarea name="message" placeholder="Write your message here..." required></textarea>
+
+        <div class="btn-row">
+          <button type="submit" class="btn-send">Send Message</button>
+          <button type="reset" class="btn-clear">Clear</button>
+        </div>
+
+        <div class="note">We never share your information. Your privacy matters to us.</div>
+      </form>
+    </div>
+
+    <!-- Right: Info Panel -->
+    <aside class="info-panel">
+      <div class="info-card">
+        <h3>📞 Contact Information</h3>
+        <div class="info-line">
+          <div class="icon">📍</div>
+          <div>123 Health St., Wellness City, Pakistan</div>
+        </div>
+        <div class="info-line">
+          <div class="icon">📞</div>
+          <div>+92 1234567890</div>
+        </div>
+        <div class="info-line">
+          <div class="icon">✉️</div>
+          <div>contact@carecompass.com</div>
+        </div>
+    </aside>
+  </div>
+
+  <!-- ========== FOOTER (SAME AS INDEX) ========== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h3>Care Compass</h3>
+          <p>Your trusted partner in health navigation. Evidence-based, compassionate, and always accessible.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h4>Explore</h4>
+            <a href="diseases.html">Diseases Library</a>
+            <a href="doctors.html">Find a Doctor</a>
+            <a href="medicines.html">Medicines Guide</a>
+            
+          </div>
+          <div class="footer-links-column">
+            <h4>Support</h4>
+            <a href="contact.html">Contact Us</a>
+            <a href="about.html">About Us</a>
+            
+          </div>
+          <div class="footer-links-column">
+            <h4>Resources</h4>
+            <a href="health-blog.html">Health Blog</a>
+            <a href="wellness-tips.html">Wellness Tips</a>
+            <a href="emergencey-guide.html">Emergency Guide</a>
+          </div>
+          <div class="footer-links-column">
+            <h4>Account</h4>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="appointment.html">My Appointments</a>
+           
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2025 Care Compass — HealthCare Information Platform. All rights reserved.</div>
+        <!-- <div class="social-icons">
+          <span>📘</span>
+          <span>🐦</span>
+          <span>📸</span>
+          <span>🔗</span>
+        </div> -->
+        <div>Need help? <a href="contact.html">Reach our team</a> | ✉️ support@carecompass.com</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const successMsg = document.createElement('div');
+    successMsg.style.cssText = `
+      background: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: none;
+      text-align: center;
+    `;
+    form.appendChild(successMsg);
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const name = document.querySelector('input[name="name"]').value;
+      const email = document.querySelector('input[name="email"]').value;
+      const subject = document.querySelector('input[name="subject"]').value;
+      const message = document.querySelector('textarea[name="message"]').value;
+
+      if (!name || !email || !message) {
+        alert('Please fill all required fields');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          successMsg.textContent = '✅ Message sent successfully! We will contact you soon.';
+          successMsg.style.display = 'block';
+          form.reset();
+          setTimeout(() => {
+            successMsg.style.display = 'none';
+          }, 3000);
+        } else {
+          alert(data.message || 'Failed to send message');
+        }
+      } catch (err) {
+        alert('Cannot connect to server. Please try again later.');
+      }
+    });
+
+    // Set active link
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('nav ul li a');
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === currentPage) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
