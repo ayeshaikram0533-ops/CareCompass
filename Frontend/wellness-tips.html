@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediGuide - Wellness Tips</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fc 0%, #226579 100%);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    padding: 2rem 1.5rem;
+    color: #39618a;
+}
+
+.wellness-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ========== PAGE HEADER ========== */
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 0.5rem;
+}
+
+.title-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #0e582d, #1e8449);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 5px 18px;
+    border-radius: 30px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(32, 53, 40, 0.3);
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.5px;
+}
+
+.title-gradient {
+    background: linear-gradient(135deg, #6fade7, #0b2742);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+.title-highlight {
+    background: linear-gradient(135deg, #072a30, #0c8178);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    position: relative;
+}
+
+.title-highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #0d657a, #14646e);
+    border-radius: 3px;
+}
+
+.sub {
+    font-size: 0.95rem;
+    color: #064461;
+    margin-top: 12px;
+    font-weight: 600;
+    background: rgba(44, 54, 48, 0.1);
+    display: inline-block;
+    padding: 6px 24px;
+    border-radius: 40px;
+}
+
+.description-box {
+    max-width: 750px;
+    margin: 20px auto 0;
+    background: white;
+    padding: 18px 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #1b5b85;
+    text-align: left;
+}
+
+.description-box p {
+    color: #0d0b6d;
+    font-weight: 450;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+/* ========== RESULTS INFO ========== */
+.results-info {
+    text-align: center;
+    padding: 8px 20px;
+    margin-bottom: 35px;
+    background: linear-gradient(135deg, #27ae60, #1e8449);
+    border-radius: 40px;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: white;
+    box-shadow: 0 2px 8px rgba(39,174,96,0.2);
+}
+
+/* ========== TIPS GRID ========== */
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* ========== TIP CARD ========== */
+.tip-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.tip-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Top Color Bar */
+.card-color-bar {
+    height: 5px;
+    width: 100%;
+}
+
+/* Card Content */
+.tip-content {
+    padding: 22px;
+}
+
+/* Category Badge */
+.tip-category {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+}
+
+.cat-hydration { background: #e3f2fd; color: #1565c0; }
+.cat-sleep { background: #e8eaf6; color: #3949ab; }
+.cat-movement { background: #e8f5e9; color: #2e7d32; }
+.cat-nutrition { background: #fff3e0; color: #e65100; }
+.cat-mental { background: #f3e5f5; color: #6a1b9a; }
+.cat-skin { background: #fce4ec; color: #c62828; }
+.cat-general { background: #e0f2f1; color: #00695c; }
+
+/* Tip Icon */
+.tip-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+/* Tip Title */
+.tip-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1a2c3e;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+/* Tip Description */
+.tip-description {
+    font-size: 0.85rem;
+    color: #5a6e7c;
+    line-height: 1.55;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .title-highlight::after {
+        bottom: -5px;
+    }
+    
+    .tips-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    
+    .tip-content {
+        padding: 18px;
+    }
+    
+    .tip-title {
+        font-size: 1.1rem;
+    }
+}
+</style>
+
+</head>
+<body>
+    <div class="wellness-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="title-badge">💚 WELLNESS TIPS</div>
+            <h1>
+                <span class="title-gradient">Wellness</span>
+                <span class="title-highlight">Tips</span>
+            </h1>
+            <div class="sub">Daily habits · Simple actions · Better health</div>
+            <div class="description-box">
+                <p>Small daily actions add up to big health improvements. Browse these <strong>30 quick wellness tips</strong> for hydration, sleep, movement, nutrition, mental health, and more.</p>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div class="results-info" id="resultsInfo">Showing 30 wellness tips</div>
+
+        <!-- Tips Grid -->
+        <div class="tips-grid" id="tipsGrid"></div>
+    </div>
+<script>
+// 30 Wellness Tips Data
+const wellnessTips = [
+    // Hydration Tips (5)
+    {
+        id: 1,
+        title: "Drink Water First Thing",
+        description: "Start your day with a full glass of water right after waking up to rehydrate your body after 7-8 hours of sleep.",
+        category: "hydration",
+        categoryName: "💧 Hydration",
+        icon: "💧",
+        colorBar: "#1565c0"
+    },
+    {
+        id: 2,
+        title: "Drink Before Coffee",
+        description: "Have a glass of water before your morning coffee to prevent dehydration caused by caffeine.",
+        category: "hydration",
+        categoryName: "💧 Hydration",
+        icon: "☕",
+        colorBar: "#1565c0"
+    },
+    {
+        id: 3,
+        title: "Carry a Water Bottle",
+        description: "Keep a reusable water bottle with you throughout the day to remind yourself to drink regularly.",
+        category: "hydration",
+        categoryName: "💧 Hydration",
+        icon: "🧴",
+        colorBar: "#1565c0"
+    },
+    {
+        id: 4,
+        title: "Eat Water-Rich Foods",
+        description: "Cucumbers, watermelon, oranges, and celery have high water content and contribute to your daily hydration.",
+        category: "hydration",
+        categoryName: "💧 Hydration",
+        icon: "🍉",
+        colorBar: "#1565c0"
+    },
+    {
+        id: 5,
+        title: "Set Hydration Reminders",
+        description: "Use your phone or smartwatch to remind you to drink water every hour, especially during work hours.",
+        category: "hydration",
+        categoryName: "💧 Hydration",
+        icon: "⏰",
+        colorBar: "#1565c0"
+    },
+
+    // Sleep Tips (5)
+    {
+        id: 6,
+        title: "No Screens Before Bed",
+        description: "Avoid phones, tablets, and laptops for at least 1 hour before sleep. Blue light disrupts melatonin production.",
+        category: "sleep",
+        categoryName: "😴 Sleep",
+        icon: "📱",
+        colorBar: "#3949ab"
+    },
+    {
+        id: 7,
+        title: "Consistent Sleep Schedule",
+        description: "Go to bed and wake up at the same time every day, even on weekends, to regulate your internal clock.",
+        category: "sleep",
+        categoryName: "😴 Sleep",
+        icon: "⏲️",
+        colorBar: "#3949ab"
+    },
+    {
+        id: 8,
+        title: "Keep Bedroom Cool",
+        description: "The ideal temperature for sleep is around 65°F (18°C). A cooler room promotes deeper sleep.",
+        category: "sleep",
+        categoryName: "😴 Sleep",
+        icon: "🌡️",
+        colorBar: "#3949ab"
+    },
+    {
+        id: 9,
+        title: "No Caffeine After 2 PM",
+        description: "Caffeine stays in your system for 6-8 hours. Avoid it in the afternoon and evening for better sleep quality.",
+        category: "sleep",
+        categoryName: "😴 Sleep",
+        icon: "☕",
+        colorBar: "#3949ab"
+    },
+    {
+        id: 10,
+        title: "Create a Bedtime Routine",
+        description: "Read a book, take a warm bath, or listen to calm music for 20 minutes before sleep to signal your body it's time to rest.",
+        category: "sleep",
+        categoryName: "😴 Sleep",
+        icon: "📖",
+        colorBar: "#3949ab"
+    },
+
+    // Movement Tips (5)
+    {
+        id: 11,
+        title: "Take the Stairs",
+        description: "Choose stairs over elevators whenever possible. It's an easy way to add cardio to your day.",
+        category: "movement",
+        categoryName: "🚶 Movement",
+        icon: "🪜",
+        colorBar: "#2e7d32"
+    },
+    {
+        id: 12,
+        title: "Stand Every 30 Minutes",
+        description: "Set a timer to stand up and stretch for 2 minutes every half hour if you have a desk job.",
+        category: "movement",
+        categoryName: "🚶 Movement",
+        icon: "🪑",
+        colorBar: "#2e7d32"
+    },
+    {
+        id: 13,
+        title: "Walk After Meals",
+        description: "A 10-minute walk after eating helps digestion and lowers blood sugar spikes.",
+        category: "movement",
+        categoryName: "🚶 Movement",
+        icon: "🚶",
+        colorBar: "#2e7d32"
+    },
+    {
+        id: 14,
+        title: "Park Further Away",
+        description: "Park at the far end of parking lots to add extra steps to your daily routine.",
+        category: "movement",
+        categoryName: "🚶 Movement",
+        icon: "🚗",
+        colorBar: "#2e7d32"
+    },
+    {
+        id: 15,
+        title: "Stretch Every Morning",
+        description: "Spend 5 minutes stretching when you wake up to improve flexibility and blood flow.",
+        category: "movement",
+        categoryName: "🚶 Movement",
+        icon: "🧘",
+        colorBar: "#2e7d32"
+    },
+
+    // Nutrition Tips (5)
+    {
+        id: 16,
+        title: "Eat a Rainbow",
+        description: "Include fruits and vegetables of different colors each day for a variety of vitamins and antioxidants.",
+        category: "nutrition",
+        categoryName: "🥗 Nutrition",
+        icon: "🌈",
+        colorBar: "#e65100"
+    },
+    {
+        id: 17,
+        title: "Don't Skip Breakfast",
+        description: "A balanced breakfast with protein and fiber provides energy and prevents overeating later.",
+        category: "nutrition",
+        categoryName: "🥗 Nutrition",
+        icon: "🍳",
+        colorBar: "#e65100"
+    },
+    {
+        id: 18,
+        title: "Add One Vegetable",
+        description: "Try adding one extra serving of vegetables to lunch and dinner every day.",
+        category: "nutrition",
+        categoryName: "🥗 Nutrition",
+        icon: "🥦",
+        colorBar: "#e65100"
+    },
+    {
+        id: 19,
+        title: "Read Food Labels",
+        description: "Check for hidden sugar, sodium, and unhealthy fats in packaged foods before buying.",
+        category: "nutrition",
+        categoryName: "🥗 Nutrition",
+        icon: "🏷️",
+        colorBar: "#e65100"
+    },
+    {
+        id: 20,
+        title: "Cook at Home More Often",
+        description: "Home-cooked meals give you control over ingredients and portion sizes.",
+        category: "nutrition",
+        categoryName: "🥗 Nutrition",
+        icon: "🍲",
+        colorBar: "#e65100"
+    },
+
+    // Mental Health Tips (5)
+    {
+        id: 21,
+        title: "Take Deep Breaths",
+        description: "When stressed, inhale for 4 seconds, hold for 4, exhale for 6. This calms your nervous system.",
+        category: "mental",
+        categoryName: "🧠 Mental Health",
+        icon: "🌬️",
+        colorBar: "#6a1b9a"
+    },
+    {
+        id: 22,
+        title: "Practice Gratitude",
+        description: "Write down three things you're grateful for each day to shift focus to the positive.",
+        category: "mental",
+        categoryName: "🧠 Mental Health",
+        icon: "🙏",
+        colorBar: "#6a1b9a"
+    },
+    {
+        id: 23,
+        title: "Take Screen Breaks",
+        description: "Every hour, look away from screens for 2 minutes to reduce eye strain and mental fatigue.",
+        category: "mental",
+        categoryName: "🧠 Mental Health",
+        icon: "👁️",
+        colorBar: "#6a1b9a"
+    },
+    {
+        id: 24,
+        title: "Talk to Someone",
+        description: "Call or meet a friend or family member daily. Social connection boosts mental well-being.",
+        category: "mental",
+        categoryName: "🧠 Mental Health",
+        icon: "📞",
+        colorBar: "#6a1b9a"
+    },
+    {
+        id: 25,
+        title: "Get Morning Sunlight",
+        description: "10-15 minutes of morning sunlight helps regulate your circadian rhythm and improves mood.",
+        category: "mental",
+        categoryName: "🧠 Mental Health",
+        icon: "☀️",
+        colorBar: "#6a1b9a"
+    },
+
+    // Skin Care Tips (5)
+    {
+        id: 26,
+        title: "Wear Sunscreen Daily",
+        description: "Apply SPF 30 or higher every day, even when cloudy, to prevent skin damage and aging.",
+        category: "skin",
+        categoryName: "🧴 Skin Care",
+        icon: "☀️",
+        colorBar: "#c62828"
+    },
+    {
+        id: 27,
+        title: "Moisturize After Shower",
+        description: "Apply moisturizer within 3 minutes of showering to lock in hydration.",
+        category: "skin",
+        categoryName: "🧴 Skin Care",
+        icon: "🧴",
+        colorBar: "#c62828"
+    },
+    {
+        id: 28,
+        title: "Don't Touch Your Face",
+        description: "Avoid touching your face throughout the day to prevent transferring bacteria that cause breakouts.",
+        category: "skin",
+        categoryName: "🧴 Skin Care",
+        icon: "✋",
+        colorBar: "#c62828"
+    },
+    {
+        id: 29,
+        title: "Stay Hydrated for Skin",
+        description: "Drinking enough water keeps your skin hydrated and may reduce dryness and wrinkles.",
+        category: "skin",
+        categoryName: "🧴 Skin Care",
+        icon: "💧",
+        colorBar: "#c62828"
+    },
+    {
+        id: 30,
+        title: "Get Enough Sleep",
+        description: "During sleep, your skin repairs itself. Poor sleep can lead to dull skin and dark circles.",
+        category: "skin",
+        categoryName: "🧴 Skin Care",
+        icon: "😴",
+        colorBar: "#c62828"
+    }
+];
+
+// Function to create tip card
+function createTipCard(tip) {
+    return `
+        <div class="tip-card">
+            <div class="card-color-bar" style="background: ${tip.colorBar};"></div>
+            <div class="tip-content">
+                <span class="tip-category cat-${tip.category}">${tip.categoryName}</span>
+                <div class="tip-icon">${tip.icon}</div>
+                <h3 class="tip-title">${tip.title}</h3>
+                <p class="tip-description">${tip.description}</p>
+            </div>
+        </div>
+    `;
+}
+
+// Render all wellness tips
+function renderWellnessTips() {
+    const grid = document.getElementById('tipsGrid');
+    const resultsInfo = document.getElementById('resultsInfo');
+    
+    if (grid) {
+        grid.innerHTML = wellnessTips.map(createTipCard).join('');
+        resultsInfo.innerHTML = `✨ Showing ${wellnessTips.length} wellness tips`;
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderWellnessTips();
+});
+
+
+</script>
+</body>
+</html>
