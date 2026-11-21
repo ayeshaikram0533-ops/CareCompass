@@ -1,0 +1,695 @@
+<title>MediGuide - Disease Library</title>
+    <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(145deg, #f0f4fa 0%, #e8eef5 100%);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    padding: 2rem 1.5rem;
+    color: #1a2c3e;
+}
+
+/* Main Container */
+.library-container {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* ========== PAGE HEADER - HIGHLIGHTED STYLES ========== */
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 1rem;
+}
+
+.title-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #2c7da0, #1f5e7e);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 5px 16px;
+    border-radius: 40px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(44,125,160,0.3);
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.title-icon {
+    font-size: 3rem;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: #2c7da0;
+}
+
+.title-gradient {
+    background: linear-gradient(135deg, #1f4870, #2a6f8f, #3085a8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+.title-highlight {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    position: relative;
+}
+
+.title-highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #e67e22, #f39c12);
+    border-radius: 3px;
+}
+
+.sub {
+    font-size: 1rem;
+    color: #2c5a74;
+    margin-top: 5px;
+    font-weight: 600;
+    background: rgba(44, 125, 160, 0.12);
+    display: inline-block;
+    padding: 6px 24px;
+    border-radius: 40px;
+    backdrop-filter: blur(2px);
+    letter-spacing: 0.5px;
+}
+
+.description-box {
+    max-width: 750px;
+    margin: 20px auto 0;
+    background: rgb(177, 209, 238);
+    padding: 16px 24px;
+    border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #2c7da0;
+    text-align: left;
+}
+
+.description-box p {
+    color: #2c5368;
+    font-weight: 450;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.description-box strong {
+    color: #1f5e7e;
+    font-weight: 700;
+}
+
+/* Flex Layout */
+.content-split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 0.8rem;
+}
+
+/* Categories Area (Left) */
+.categories-area {
+    flex: 3;
+    min-width: 260px;
+}
+
+/* Filter Sidebar (Right) */
+.filter-sidebar {
+    flex: 0.8;
+    min-width: 180px;
+    background: white;
+    border-radius: 32px;
+    padding: 1.2rem 0.8rem;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(44, 125, 160, 0.2);
+}
+
+.filter-title {
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #1f5e7e;
+    text-align: center;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* A-Z Compact Grid */
+.az-compact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.letter-badge {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f4f9;
+    border-radius: 24px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #1f4970;
+    cursor: pointer;
+    transition: 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.letter-badge:hover {
+    background: #cbe4f5;
+    transform: translateY(-2px);
+}
+
+.letter-badge.active {
+    background: #2c7da0;
+    color: white;
+    box-shadow: 0 6px 12px rgba(44, 125, 160, 0.3);
+    border-color: white;
+}
+
+.letter-badge.all-btn {
+    background: #e2eaf1;
+    width: auto;
+    padding: 0 16px;
+    border-radius: 30px;
+}
+
+/* Filter Info */
+.filter-info {
+    text-align: center;
+    font-size: 0.75rem;
+    margin-top: 16px;
+    background: #eef3fc;
+    padding: 6px 10px;
+    border-radius: 28px;
+    color: #136b8d;
+    font-weight: 600;
+}
+
+/* ========== CATEGORY SECTION NAMES - HIGHLIGHTED ========== */
+.category-block {
+    margin-bottom: 3rem;
+}
+
+.cat-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+    padding: 8px 16px 8px 12px;
+    background: linear-gradient(95deg, #ffffff, #69adf1);
+    border-radius: 60px;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(44, 125, 160, 0.15);
+    transition: 0.2s;
+}
+
+.cat-head:hover {
+    box-shadow: 0 4px 12px rgba(44, 125, 160, 0.1);
+    transform: translateX(3px);
+}
+
+.cat-icon {
+    font-size: 2rem;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.cat-head h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(120deg, #1e4762, #3085a8);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: -0.3px;
+    position: relative;
+}
+
+/* Disease Grid */
+.disease-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+}
+
+/* Disease Card */
+.disease-card {
+    background: white;
+    border-radius: 24px;
+    padding: 1rem 1.2rem;
+    transition: all 0.25s;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.disease-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 28px -12px rgba(0, 32, 64, 0.15);
+    background: #ffffff;
+    border-color: #cde5f0;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.card-emoji {
+    font-size: 1.8rem;
+}
+
+.card-title h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1f3e54;
+}
+
+.card-desc {
+    font-size: 0.8rem;
+    color: #456f86;
+    line-height: 1.4;
+    margin: 8px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Symptom Chips */
+.symptom-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.chip {
+    background: #eef3fc;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #1e6f8f;
+}
+
+/* Learn More Link */
+.learn-link {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2c7da0;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-top: 1px solid #eaf2f9;
+    padding-top: 12px;
+    margin-top: 6px;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.learn-link:hover {
+    color: #145c7a;
+    gap: 10px;
+}
+
+/* No Results */
+.no-results-block {
+    text-align: center;
+    background: white;
+    border-radius: 40px;
+    padding: 3rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    font-size: 0.7rem;
+    margin-top: 4rem;
+    color: #57869e;
+    border-top: 1px solid #d4e2ed;
+    padding-top: 1.8rem;
+}
+
+/* Responsive */
+@media (max-width: 780px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .title-icon {
+        font-size: 2.2rem;
+    }
+    
+    .title-highlight::after {
+        bottom: -2px;
+    }
+    
+    .cat-head h2 {
+        font-size: 1.2rem;
+    }
+    
+    .cat-icon {
+        font-size: 1.6rem;
+    }
+    
+    .content-split {
+        flex-direction: column;
+    }
+    
+    .filter-sidebar {
+        position: static;
+        width: 100%;
+        order: 2;
+        margin-top: 0;
+    }
+    
+    .categories-area {
+        order: 1;
+    }
+    
+    .az-compact {
+        justify-content: center;
+    }
+    
+    .letter-badge {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .description-box {
+        margin: 15px 10px;
+        padding: 12px 16px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="library-container">
+        <!-- Header Section - HIGHLIGHTED STYLE -->
+        <div class="page-header">
+            <!-- <div class="title-badge">📚 MEDICAL RESOURCE</div> -->
+            <h1>
+                <span class="title-icon">📘</span> 
+                <span class="title-gradient">MediGuide</span>
+                <span class="title-highlight">Disease Library</span>
+            </h1>
+            <div class="sub">🔍 Educational resource · 77+ conditions</div>
+            <div class="description-box">
+                <p>Explore comprehensive information about diseases across <strong>4 major categories</strong>. Click any letter to filter diseases by name, or browse freely. Every card includes key symptoms and a quick overview — designed for medical awareness.</p>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="content-split">
+            <!-- Categories Section (Left) -->
+            <div class="categories-area" id="categoriesArea"></div>
+
+            <!-- Filter Sidebar (Right) -->
+            <div class="filter-sidebar">
+                <div class="filter-title">
+                    <span>🔤</span> ALPHABET FILTER
+                </div>
+                <div class="az-compact" id="azFilterContainer"></div>
+                <div class="filter-info" id="filterStatusMsg">✨ all diseases visible</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            ⚕️ Educational purpose only — always consult a medical professional.
+        </footer>
+    </div>
+
+    <script>
+      // All 77 Diseases Data
+const fullData = {
+    chronic: [
+        { name: "Diabetes Type 1", icon: "🩸", desc: "Autoimmune destruction of insulin-producing cells.", symptoms: ["Excessive thirst", "Unexplained weight loss"] },
+        { name: "Diabetes Type 2", icon: "🩸", desc: "Insulin resistance & high blood sugar.", symptoms: ["Increased hunger", "Frequent urination"] },
+        { name: "Hypertension", icon: "❤️", desc: "Persistently elevated blood pressure.", symptoms: ["Headaches", "Shortness of breath"] },
+        { name: "Asthma", icon: "🌬️", desc: "Chronic airway inflammation & narrowing.", symptoms: ["Wheezing", "Chest tightness"] },
+        { name: "Arthritis", icon: "🦴", desc: "Joint inflammation causing pain.", symptoms: ["Joint stiffness", "Swelling"] },
+        { name: "Chronic Kidney Disease", icon: "🫘", desc: "Progressive loss of kidney function.", symptoms: ["Fatigue", "Swollen ankles"] },
+        { name: "COPD", icon: "🫁", desc: "Lung obstruction, mainly from smoking.", symptoms: ["Chronic cough", "Mucus overproduction"] },
+        { name: "Heart Failure", icon: "❤️", desc: "Heart cannot pump efficiently.", symptoms: ["Breathlessness", "Leg swelling"] },
+        { name: "Obesity", icon: "⚖️", desc: "Excess body fat, health risk factor.", symptoms: ["High BMI", "Breathlessness on exertion"] },
+        { name: "Osteoporosis", icon: "🦴", desc: "Brittle bones due to low density.", symptoms: ["Back pain", "Loss of height"] },
+        { name: "Alzheimer's Disease", icon: "🧠", desc: "Progressive neurodegenerative disorder.", symptoms: ["Memory loss", "Confusion"] },
+        { name: "Parkinson's Disease", icon: "🧠", desc: "Movement disorder, dopamine loss.", symptoms: ["Tremors", "Slowness"] },
+        { name: "Epilepsy", icon: "⚡", desc: "Seizure disorder of the brain.", symptoms: ["Seizures", "Temporary confusion"] },
+        { name: "Multiple Sclerosis", icon: "🧬", desc: "Immune attacks nerve coverings.", symptoms: ["Numbness", "Walking difficulty"] },
+        { name: "Chronic Fatigue Syndrome", icon: "😴", desc: "Extreme unresolved fatigue.", symptoms: ["Post-exertional malaise", "Sleep issues"] },
+        { name: "Fibromyalgia", icon: "💪", desc: "Widespread musculoskeletal pain.", symptoms: ["Tender points", "Fatigue"] },
+        { name: "Crohn's Disease", icon: "🫃", desc: "Inflammatory bowel disease.", symptoms: ["Diarrhea", "Abdominal pain"] },
+        { name: "Ulcerative Colitis", icon: "🫃", desc: "Colon inflammation & ulcers.", symptoms: ["Bloody stool", "Urgency"] },
+        { name: "Psoriasis", icon: "🩹", desc: "Autoimmune skin condition.", symptoms: ["Red plaques", "Silvery scales"] },
+        { name: "Eczema", icon: "🩹", desc: "Itchy, inflamed skin patches.", symptoms: ["Dry skin", "Intense itching"] }
+    ],
+    genetic: [
+        { name: "Cystic Fibrosis", icon: "🫁", desc: "Thick mucus affects lungs & digestion.", symptoms: ["Persistent cough", "Salty skin"] },
+        { name: "Sickle Cell Anemia", icon: "🩸", desc: "Misshapen red blood cells.", symptoms: ["Pain crises", "Anemia"] },
+        { name: "Huntington's Disease", icon: "🧠", desc: "Neurodegenerative, chorea.", symptoms: ["Jerky movements", "Cognitive decline"] },
+        { name: "Down Syndrome", icon: "👶", desc: "Trisomy 21 developmental condition.", symptoms: ["Flat facial profile", "Short stature"] },
+        { name: "Hemophilia", icon: "🩸", desc: "Blood clotting disorder.", symptoms: ["Easy bruising", "Joint bleeding"] },
+        { name: "Tay-Sachs Disease", icon: "🧠", desc: "Lipid storage disorder.", symptoms: ["Motor decline", "Seizures"] },
+        { name: "Muscular Dystrophy", icon: "💪", desc: "Progressive muscle weakness.", symptoms: ["Frequent falls", "Enlarged calves"] },
+        { name: "Fragile X Syndrome", icon: "🧬", desc: "Intellectual disability syndrome.", symptoms: ["Social anxiety", "Hyperactivity"] },
+        { name: "Turner Syndrome", icon: "👧", desc: "Missing X chromosome in females.", symptoms: ["Short stature", "Webbed neck"] },
+        { name: "Klinefelter Syndrome", icon: "👦", desc: "XXY chromosomal pattern.", symptoms: ["Tall stature", "Small testes"] },
+        { name: "Phenylketonuria", icon: "🧪", desc: "Cannot metabolize phenylalanine.", symptoms: ["Musty odor", "Developmental delay"] },
+        { name: "Albinism", icon: "👁️", desc: "Melanin deficiency.", symptoms: ["Light skin", "Vision issues"] },
+        { name: "Marfan Syndrome", icon: "🦴", desc: "Connective tissue disorder.", symptoms: ["Long limbs", "Heart murmur"] },
+        { name: "Ehlers-Danlos Syndrome", icon: "🦵", desc: "Joint hypermobility, fragile skin.", symptoms: ["Hyperflexible joints", "Easy bruising"] },
+        { name: "Neurofibromatosis", icon: "🧠", desc: "Tumor growth on nerves.", symptoms: ["Café-au-lait spots", "Soft tumors"] },
+        { name: "Retinitis Pigmentosa", icon: "👁️", desc: "Progressive retinal degeneration.", symptoms: ["Night blindness", "Tunnel vision"] }
+    ],
+    seasonal: [
+        { name: "Influenza", icon: "🤧", desc: "Seasonal respiratory viral infection.", symptoms: ["High fever", "Body aches"] },
+        { name: "Common Cold", icon: "😷", desc: "Mild viral upper respiratory illness.", symptoms: ["Runny nose", "Sneezing"] },
+        { name: "Hay Fever", icon: "🌸", desc: "Allergic rhinitis due to pollen.", symptoms: ["Itchy eyes", "Nasal congestion"] },
+        { name: "Heat Stroke", icon: "☀️", desc: "Life-threatening hyperthermia.", symptoms: ["Hot dry skin", "Confusion"] },
+        { name: "Heat Exhaustion", icon: "🌡️", desc: "Heat-related illness, heavy sweating.", symptoms: ["Weakness", "Dizziness"] },
+        { name: "Dehydration", icon: "💧", desc: "Excessive fluid loss.", symptoms: ["Thirst", "Dark urine"] },
+        { name: "Sunburn", icon: "☀️", desc: "UV radiation skin damage.", symptoms: ["Redness", "Pain"] },
+        { name: "Frostbite", icon: "❄️", desc: "Skin freezing from extreme cold.", symptoms: ["Numbness", "Pale skin"] },
+        { name: "Hypothermia", icon: "❄️", desc: "Dangerously low body temperature.", symptoms: ["Shivering", "Slurred speech"] },
+        { name: "Norovirus", icon: "🤢", desc: "Highly contagious stomach bug.", symptoms: ["Vomiting", "Watery diarrhea"] },
+        { name: "Lyme Disease", icon: "🕷️", desc: "Tick-borne bacterial infection.", symptoms: ["Bullseye rash", "Joint pain"] },
+        { name: "West Nile Virus", icon: "🦟", desc: "Mosquito-borne illness.", symptoms: ["Fever", "Muscle weakness"] },
+        { name: "Allergic Rhinitis", icon: "🤧", desc: "Seasonal allergy response.", symptoms: ["Sneezing", "Postnasal drip"] },
+        { name: "Pneumonia", icon: "🫁", desc: "Lung infection, common in cold months.", symptoms: ["Cough with phlegm", "Fever"] },
+        { name: "Bronchitis", icon: "🫁", desc: "Bronchial tube inflammation.", symptoms: ["Persistent cough", "Fatigue"] },
+        { name: "Strep Throat", icon: "🗣️", desc: "Bacterial throat infection.", symptoms: ["Sore throat", "Swollen tonsils"] },
+        { name: "Gastroenteritis", icon: "🫃", desc: "Stomach & intestinal inflammation.", symptoms: ["Nausea", "Abdominal cramps"] }
+    ],
+    infectious: [
+        { name: "COVID-19", icon: "🦠", desc: "SARS-CoV-2 respiratory illness.", symptoms: ["Loss of taste", "Dry cough"] },
+        { name: "Tuberculosis", icon: "🫁", desc: "Bacterial lung infection.", symptoms: ["Night sweats", "Weight loss"] },
+        { name: "Malaria", icon: "🦟", desc: "Mosquito-borne parasitic disease.", symptoms: ["Cyclic fevers", "Chills"] },
+        { name: "Hepatitis B", icon: "🫀", desc: "Viral liver infection.", symptoms: ["Jaundice", "Dark urine"] },
+        { name: "HIV/AIDS", icon: "🦠", desc: "Immunodeficiency virus.", symptoms: ["Recurrent fever", "Lymphadenopathy"] },
+        { name: "Measles", icon: "😷", desc: "Highly contagious viral rash illness.", symptoms: ["Koplik spots", "Maculopapular rash"] },
+        { name: "Mumps", icon: "😷", desc: "Viral parotitis.", symptoms: ["Swollen cheeks", "Fever"] },
+        { name: "Rubella", icon: "🤰", desc: "German measles, mild rash.", symptoms: ["Pink rash", "Swollen glands"] },
+        { name: "Chickenpox", icon: "🩹", desc: "Varicella zoster infection.", symptoms: ["Itchy blisters", "Fatigue"] },
+        { name: "Shingles", icon: "🔥", desc: "Reactivation of varicella.", symptoms: ["Painful rash", "Burning"] },
+        { name: "Dengue Fever", icon: "🦟", desc: "Breakbone fever, mosquito vector.", symptoms: ["Retro-orbital pain", "Joint pain"] },
+        { name: "Zika Virus", icon: "🦟", desc: "Mosquito-borne, congenital risks.", symptoms: ["Conjunctivitis", "Rash"] },
+        { name: "Chikungunya", icon: "🦟", desc: "Severe joint pain virus.", symptoms: ["Polyarthritis", "High fever"] },
+        { name: "Ebola", icon: "🦠", desc: "Viral hemorrhagic fever.", symptoms: ["Bleeding", "Organ failure"] },
+        { name: "Meningitis", icon: "🧠", desc: "Inflammation of meninges.", symptoms: ["Stiff neck", "Photophobia"] },
+        { name: "Pertussis", icon: "🗣️", desc: "Whooping cough, bacterial.", symptoms: ["Paroxysmal cough", "Inspiratory whoop"] },
+        { name: "Tetanus", icon: "💪", desc: "Muscle rigidity from toxin.", symptoms: ["Lockjaw", "Muscle spasms"] },
+        { name: "Cholera", icon: "💧", desc: "Severe watery diarrhea.", symptoms: ["Rice-water stool", "Dehydration"] },
+        { name: "Typhoid Fever", icon: "🤢", desc: "Salmonella typhi infection.", symptoms: ["Stepwise fever", "Rose spots"] },
+        { name: "Leprosy", icon: "🩹", desc: "Chronic granulomatous disease.", symptoms: ["Skin lesions", "Neuropathy"] },
+        { name: "Rabies", icon: "🐕", desc: "Fatal viral encephalitis.", symptoms: ["Hydrophobia", "Agitation"] },
+        { name: "Yellow Fever", icon: "🦟", desc: "Hemorrhagic arbovirus.", symptoms: ["Jaundice", "Bleeding"] },
+        { name: "Hepatitis C", icon: "🫀", desc: "Chronic liver infection.", symptoms: ["Fatigue", "Cirrhosis risk"] },
+        { name: "Polio", icon: "🦵", desc: "Paralytic disease, vaccine preventable.", symptoms: ["Acute flaccid paralysis", "Muscle pain"] }
+    ]
+};
+
+// Create Card HTML
+function createCardHTML(disease) {
+    return `
+        <div class="disease-card">
+            <div class="card-title">
+                <span class="card-emoji">${disease.icon}</span>
+                <h3>${disease.name}</h3>
+            </div>
+            <div class="card-desc">${disease.desc}</div>
+            <div class="symptom-chips">
+                <span class="chip">🔹 ${disease.symptoms[0]}</span>
+                <span class="chip">🔸 ${disease.symptoms[1]}</span>
+            </div>
+            <a href="#" class="learn-link" data-name="${disease.name.replace(/'/g, "\\'")}">📖 Learn more →</a>
+        </div>
+    `;
+}
+
+// Render Categories
+function renderCategories(data) {
+    const container = document.getElementById('categoriesArea');
+    if (!container) return;
+    
+    const categoriesMeta = [
+        { id: 'chronic', title: 'Chronic Diseases', icon: '🩺' },
+        { id: 'genetic', title: 'Genetic Disorders', icon: '🧬' },
+        { id: 'seasonal', title: 'Seasonal Illnesses', icon: '🌡️' },
+        { id: 'infectious', title: 'Infectious Diseases', icon: '🦠' }
+    ];
+    
+    let html = '';
+    for (let cat of categoriesMeta) {
+        const diseases = data[cat.id];
+        if (!diseases.length) continue;
+        const cardsHtml = diseases.map(d => createCardHTML(d)).join('');
+        html += `
+            <div class="category-block" data-category="${cat.id}">
+                <div class="cat-head">
+                    <div class="cat-icon">${cat.icon}</div>
+                    <h2>${cat.title}</h2>
+                </div>
+                <div class="disease-grid" id="grid-${cat.id}">
+                    ${cardsHtml}
+                </div>
+            </div>
+        `;
+    }
+    container.innerHTML = html || '<div class="no-results-block">✨ No matching diseases for selected filter. Try another letter.</div>';
+    attachLearnMoreEvents();
+}
+
+// Learn More Click Handler
+function attachLearnMoreEvents() {
+    document.querySelectorAll('.learn-link').forEach(link => {
+        link.removeEventListener('click', handleLearnClick);
+        link.addEventListener('click', handleLearnClick);
+    });
+}
+
+function handleLearnClick(e) {
+    e.preventDefault();
+    const diseaseName = e.currentTarget.getAttribute('data-name');
+    let found = null;
+    for (let cat of ['chronic', 'genetic', 'seasonal', 'infectious']) {
+        found = fullData[cat].find(d => d.name === diseaseName);
+        if (found) break;
+    }
+    if (found) {
+        const sympMsg = found.symptoms.slice(0, 3).join(', ');
+        alert(`📌 ${found.name}\n${found.desc}\n\n🔹 Common symptoms: ${sympMsg}\n\n⚠️ Consult a physician for medical advice.`);
+    } else {
+        alert(`ℹ️ More information about ${diseaseName} available in our medical reference.`);
+    }
+}
+
+// Filter by Letter
+let activeLetter = 'all';
+
+function filterByLetter(letter) {
+    activeLetter = letter;
+    if (letter === 'all') {
+        renderCategories(fullData);
+        document.getElementById('filterStatusMsg').innerHTML = `✨ all diseases · ${totalCount()} conditions`;
+        return;
+    }
+    const filtered = {
+        chronic: fullData.chronic.filter(d => d.name.charAt(0).toUpperCase() === letter),
+        genetic: fullData.genetic.filter(d => d.name.charAt(0).toUpperCase() === letter),
+        seasonal: fullData.seasonal.filter(d => d.name.charAt(0).toUpperCase() === letter),
+        infectious: fullData.infectious.filter(d => d.name.charAt(0).toUpperCase() === letter)
+    };
+    const totalFiltered = filtered.chronic.length + filtered.genetic.length + filtered.seasonal.length + filtered.infectious.length;
+    if (totalFiltered === 0) {
+        document.getElementById('categoriesArea').innerHTML = `<div class="no-results-block"><span>🔍 No disease starts with "${letter}"</span><br><small>Try "All" or another letter</small></div>`;
+        document.getElementById('filterStatusMsg').innerHTML = `⚠️ no match for "${letter}"`;
+    } else {
+        renderCategories(filtered);
+        document.getElementById('filterStatusMsg').innerHTML = `🔍 showing ${totalFiltered} disease${totalFiltered !== 1 ? 's' : ''} starting with "${letter}"`;
+    }
+}
+
+function totalCount() {
+    return fullData.chronic.length + fullData.genetic.length + fullData.seasonal.length + fullData.infectious.length;
+}
+
+// Build A-Z Filter
+function buildAZFilter() {
+    const container = document.getElementById('azFilterContainer');
+    if (!container) return;
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    let btns = `<div class="letter-badge all-btn active" data-letter="all">📋 All</div>`;
+    letters.forEach(l => {
+        btns += `<div class="letter-badge" data-letter="${l}">${l}</div>`;
+    });
+    container.innerHTML = btns;
+    
+    document.querySelectorAll('.letter-badge').forEach(el => {
+        el.addEventListener('click', () => {
+            const letter = el.getAttribute('data-letter');
+            document.querySelectorAll('.letter-badge').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
+            filterByLetter(letter);
+        });
+    });
+}
+
+// Initialize
+function init() {
+    buildAZFilter();
+    renderCategories(fullData);
+    document.getElementById('filterStatusMsg').innerHTML = `✨ all diseases · ${totalCount()} conditions available`;
+}
+
+init();
+    </script>
+</body>
+</html>
