@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediGuide - Health Blog</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(145deg, #f5f7fc 0%, #eef2f8 100%);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    padding: 2rem 1.5rem;
+    color: #1a2c3e;
+}
+
+.blog-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ========== PAGE HEADER ========== */
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 0.5rem;
+}
+
+.title-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 5px 18px;
+    border-radius: 30px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(230,126,34,0.3);
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.5px;
+}
+
+.title-gradient {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+.title-highlight {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    position: relative;
+}
+
+.title-highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #e67e22, #f39c12);
+    border-radius: 3px;
+}
+
+.sub {
+    font-size: 0.95rem;
+    color: #e67e22;
+    margin-top: 12px;
+    font-weight: 600;
+    background: rgba(230,126,34,0.1);
+    display: inline-block;
+    padding: 6px 24px;
+    border-radius: 40px;
+}
+
+.description-box {
+    max-width: 750px;
+    margin: 20px auto 0;
+    background: white;
+    padding: 18px 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #e67e22;
+    text-align: left;
+}
+
+.description-box p {
+    color: #4a627a;
+    font-weight: 450;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+/* ========== RESULTS INFO ========== */
+.results-info {
+    text-align: center;
+    padding: 8px 20px;
+    margin-bottom: 35px;
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    border-radius: 40px;
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: white;
+    box-shadow: 0 2px 8px rgba(230,126,34,0.2);
+}
+
+/* ========== BLOG GRID ========== */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+/* ========== BLOG CARD ========== */
+.blog-card {
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+}
+
+.blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Background Colors */
+.card-bg-prevention { background: linear-gradient(135deg, #e3f2fd, #bbdef5); }
+.card-bg-lifestyle { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+.card-bg-medicine { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+.card-bg-mental { background: linear-gradient(135deg, #e0f2f1, #b2dfdb); }
+.card-bg-firstaid { background: linear-gradient(135deg, #ffebee, #ffcdd2); }
+.card-bg-nutrition { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+
+/* Card Content */
+.blog-content {
+    padding: 28px;
+}
+
+/* Category Badge */
+.blog-category {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 25px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.cat-prevention { background: #1565c0; color: white; }
+.cat-lifestyle { background: #e65100; color: white; }
+.cat-medicine { background: #6a1b9a; color: white; }
+.cat-mental { background: #00695c; color: white; }
+.cat-firstaid { background: #c62828; color: white; }
+.cat-nutrition { background: #2e7d32; color: white; }
+
+/* Blog Title */
+.blog-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #1a2c3e;
+    margin-bottom: 14px;
+    line-height: 1.35;
+}
+
+/* Blog Preview */
+.blog-preview {
+    font-size: 0.9rem;
+    color: #4a627a;
+    line-height: 1.55;
+    margin-bottom: 20px;
+}
+
+/* Blog Meta */
+.blog-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.blog-date {
+    font-size: 0.75rem;
+    color: #5a6e7c;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.read-link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #e67e22;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.read-link:hover {
+    gap: 10px;
+    color: #d35400;
+}
+
+/* ========== MODAL STYLES ========== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 28px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: sticky;
+    top: 15px;
+    right: 20px;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    background: white;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    z-index: 10;
+    transition: 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.close-modal:hover {
+    color: #333;
+    background: #f0f0f0;
+}
+
+.modal-body {
+    padding: 32px;
+    clear: both;
+}
+
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1a2c3e;
+    margin-bottom: 12px;
+}
+
+.modal-date {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e67e22;
+    display: inline-block;
+}
+
+.modal-category {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 25px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-left: 12px;
+    color: white;
+}
+
+.modal-section {
+    margin-bottom: 22px;
+}
+
+.modal-section h4 {
+    color: #e67e22;
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.modal-section p {
+    color: #4a627a;
+    line-height: 1.65;
+    font-size: 0.95rem;
+}
+
+.modal-section ul {
+    margin-left: 20px;
+    color: #4a627a;
+    line-height: 1.65;
+}
+
+.modal-section li {
+    margin: 8px 0;
+}
+
+.modal-warning {
+    background: #fef9e8;
+    padding: 14px 18px;
+    border-radius: 14px;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #856404;
+    border-left: 4px solid #e67e22;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .title-highlight::after {
+        bottom: -5px;
+    }
+    
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .blog-content {
+        padding: 20px;
+    }
+    
+    .blog-title {
+        font-size: 1.2rem;
+    }
+    
+    .modal-title {
+        font-size: 1.4rem;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+}
+</style>
+
+</head>
+<body>
+    <div class="blog-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="title-badge">📝 HEALTH BLOG</div>
+            <h1>
+                <span class="title-gradient">Health</span>
+                <span class="title-highlight">Blog</span>
+            </h1>
+            <div class="sub">Expert tips · Wellness guides · Medical awareness</div>
+            <div class="description-box">
+                <p>Read our latest articles on <strong>disease prevention, healthy living, medicine safety, and wellness tips</strong> to help you stay informed and healthy.</p>
+            </div>
+        </div>
+
+        <!-- Results Count -->
+        <div class="results-info" id="resultsInfo">Showing 8 articles</div>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid" id="blogGrid"></div>
+    </div>
+
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <!-- Article content will appear here -->
+            </div>
+        </div>
+    </div>
+<script>
+// Expanded Blog Posts Data with More Sections
+const blogPosts = [
+    {
+        id: 1,
+        title: "10 Simple Ways to Boost Your Immune System",
+        category: "prevention",
+        categoryName: "🛡️ Prevention",
+        cardBg: "card-bg-prevention",
+        date: "March 15, 2025",
+        preview: "Natural ways to strengthen your body's defense system and stay healthy throughout the year.",
+        content: {
+            introduction: "Your immune system is your body's complex network of cells, tissues, and organs that work together to defend against harmful invaders like bacteria and viruses. When functioning properly, it can identify threats and mount a response to keep you healthy. However, factors like poor sleep, chronic stress, and unhealthy eating can weaken this defense system over time. The good news is that simple daily habits can significantly strengthen your immunity. Here's what science says about boosting your body's natural defenses.",
+            whyItMatters: "Research shows that lifestyle factors directly impact immune function. People who sleep less than 6 hours per night are four times more likely to catch a cold compared to those who sleep 7-8 hours. Chronic stress releases cortisol, a hormone that suppresses immune response. Poor nutrition deprives your body of essential vitamins like C, D, and zinc that immune cells need to function properly. Even social connection matters—lonely individuals show weaker immune responses to vaccination.",
+            practicalSteps: [
+                { title: "Get 7-9 hours of quality sleep", desc: "During deep sleep, your body releases cytokines, proteins that help fight infection and inflammation. Lack of sleep reduces these protective proteins." },
+                { title: "Eat a rainbow of fruits and vegetables", desc: "Different colors provide different antioxidants. Red peppers have vitamin C, orange carrots have beta-carotene, dark greens have folate." },
+                { title: "Stay hydrated", desc: "Water helps carry oxygen to your cells and removes toxins. Dehydration can impair physical performance and immune function." },
+                { title: "Exercise moderately for 30 minutes daily", desc: "Regular exercise promotes good circulation, allowing immune cells to move freely throughout the body." },
+                { title: "Manage stress through deep breathing", desc: "Chronic stress raises cortisol levels, which can suppress immune response over time." },
+                { title: "Wash hands properly for 20 seconds", desc: "Proper hand hygiene is the most effective way to prevent the spread of infectious diseases." },
+                { title: "Stay up to date with vaccines", desc: "Vaccines train your immune system to recognize and fight specific pathogens." },
+                { title: "Limit alcohol consumption", desc: "Excessive alcohol can impair immune cells and make you more susceptible to infections." },
+                { title: "Don't smoke or vape", desc: "Smoking damages lung tissue and reduces the effectiveness of immune cells in the respiratory tract." }
+            ],
+            commonMistakes: [
+                "Relying on 'immune-boosting' supplements without medical need (excess zinc or vitamin C can cause side effects)",
+                "Not washing hands properly (most people wash for only 6 seconds instead of 20)",
+                "Ignoring chronic stress thinking it's normal",
+                "Skipping vaccines thinking natural immunity is better (natural disease carries risks)"
+            ],
+            whenToSeeDoctor: [
+                "Frequent infections (more than 4-5 colds per year or recurring pneumonia)",
+                "Wounds that heal very slowly (takes weeks instead of days)",
+                "Unexplained fatigue that doesn't improve with rest",
+                "Autoimmune symptoms like joint pain, skin rashes, or swollen glands"
+            ],
+            summary: "Your immune system responds to how you treat your body daily. Prioritize sleep, eat whole foods, manage stress, stay active, and practice good hygiene. These small habits add up to a stronger defense system that protects you year-round."
+        }
+    },
+    {
+        id: 2,
+        title: "How to Prevent Type 2 Diabetes",
+        category: "prevention",
+        categoryName: "🛡️ Prevention",
+        cardBg: "card-bg-prevention",
+        date: "March 10, 2025",
+        preview: "Simple lifestyle changes that can significantly reduce your risk of developing diabetes.",
+        content: {
+            introduction: "Type 2 diabetes is a chronic condition that affects how your body processes blood sugar (glucose). Unlike type 1 diabetes, which is autoimmune, type 2 is largely preventable through lifestyle choices. Currently, over 400 million adults worldwide have diabetes, and this number continues to rise. However, research from major studies like the Diabetes Prevention Program shows that lifestyle intervention can reduce the risk of developing type 2 diabetes by up to 58%—and by 71% for people over 60. Here's what you need to know.",
+            whyItMatters: "Uncontrolled diabetes can lead to serious complications including heart disease, kidney failure, vision loss, and nerve damage. The good news is that your body can recover insulin sensitivity when you make healthy changes. Even losing just 5-7% of your body weight (10-14 pounds for a 200-pound person) and exercising 30 minutes daily can dramatically lower your risk.",
+            practicalSteps: [
+                { title: "Lose excess body weight", desc: "Fat around the abdomen (visceral fat) is particularly harmful as it releases inflammatory chemicals that interfere with insulin function." },
+                { title: "Exercise for 30 minutes daily", desc: "Walking, jogging, cycling, or swimming helps muscles use glucose more efficiently and improves insulin sensitivity." },
+                { title: "Reduce sugar and refined carbs", desc: "White bread, white rice, soda, and sweets cause rapid blood sugar spikes, stressing your pancreas." },
+                { title: "Eat more fiber-rich foods", desc: "Vegetables, whole grains, beans, and nuts slow down sugar absorption and help control blood glucose." },
+                { title: "Drink water instead of sugary beverages", desc: "Sodas, sweet teas, and fruit juices are major sources of hidden sugar that contribute to insulin resistance." },
+                { title: "Get regular blood sugar checkups", desc: "Know your numbers. Fasting glucose above 100 mg/dL indicates prediabetes, a warning sign to take action." },
+                { title: "Quit smoking", desc: "Smoking increases inflammation and is linked to higher risk of diabetes and complications." },
+                { title: "Limit processed foods", desc: "Packaged snacks, frozen meals, and processed meats often contain unhealthy fats and added sugars." }
+            ],
+            commonMistakes: [
+                "Thinking only overweight people get diabetes (normal-weight individuals can also develop it)",
+                "Relying on 'sugar-free' processed foods (they often contain other harmful additives)",
+                "Skipping meals to save calories (can cause blood sugar crashes and overeating later)",
+                "Ignoring prediabetes (it's a reversible condition with lifestyle changes)"
+            ],
+            whenToSeeDoctor: [
+                "Family history of type 2 diabetes with any symptoms",
+                "Unexplained weight loss despite eating normally",
+                "Excessive thirst and urination",
+                "Blurred vision or slow-healing cuts",
+                "Tingling or numbness in hands or feet"
+            ],
+            summary: "Type 2 diabetes is not inevitable. Small, consistent changes in weight, diet, and physical activity can prevent or delay it for years—or even a lifetime. Start with one change today and build from there."
+        }
+    },
+    {
+        id: 3,
+        title: "Seasonal Flu: Prevention and Home Care",
+        category: "prevention",
+        categoryName: "🛡️ Prevention",
+        cardBg: "card-bg-prevention",
+        date: "March 5, 2025",
+        preview: "Protect yourself and your family during flu season with these essential tips.",
+        content: {
+            introduction: "Influenza (flu) is a contagious respiratory illness caused by influenza viruses that infect the nose, throat, and sometimes the lungs. It can cause mild to severe illness, and at times can lead to hospitalization or death. Flu season typically peaks between December and February, but cases can occur as early as October and as late as May. Each year, millions of people get the flu, hundreds of thousands are hospitalized, and thousands die from flu-related causes. The good news is that you can take steps to protect yourself and your family.",
+            whyItMatters: "Flu is more dangerous than the common cold. Complications include pneumonia, bronchitis, sinus infections, and worsening of chronic conditions like heart disease or asthma. People at high risk include young children, elderly adults, pregnant women, and those with weakened immune systems. The annual flu vaccine is the best defense, reducing the risk of illness by 40-60% when the vaccine is well-matched to circulating strains.",
+            practicalSteps: [
+                { title: "Get the annual flu vaccine", desc: "The vaccine is updated each year to match predicted circulating strains. It takes about two weeks for immunity to develop." },
+                { title: "Wash hands frequently for 20 seconds", desc: "Use soap and water or alcohol-based hand sanitizer when soap isn't available." },
+                { title: "Avoid touching your face", desc: "Flu viruses can enter your body through your eyes, nose, and mouth after touching contaminated surfaces." },
+                { title: "Stay away from sick individuals", desc: "The flu is contagious from one day before symptoms start to 5-7 days after becoming sick." },
+                { title: "Cover coughs and sneezes", desc: "Use a tissue or your elbow, not your hands, to prevent spreading droplets through the air." }
+            ],
+            homeCare: [
+                "Rest at home until fever-free for 24 hours without medication",
+                "Drink plenty of fluids like water, broth, and electrolyte solutions",
+                "Use over-the-counter pain relievers for fever and body aches (acetaminophen or ibuprofen)",
+                "Use a humidifier or cool-mist vaporizer to ease congestion",
+                "Avoid aspirin (especially in children) to prevent Reye's syndrome"
+            ],
+            commonMistakes: [
+                "Taking antibiotics for the flu (antibiotics don't work against viruses)",
+                "Returning to work or school too early (you're still contagious)",
+                "Not drinking enough fluids, leading to dehydration",
+                "Ignoring warning signs that require medical attention"
+            ],
+            whenToSeeDoctor: [
+                "Difficulty breathing or shortness of breath",
+                "Chest pain or severe abdominal pain",
+                "Sudden dizziness or confusion",
+                "Severe or persistent vomiting",
+                "Flu-like symptoms that improve but then return with worse fever or cough"
+            ],
+            summary: "The flu is serious but preventable. Get vaccinated every year, practice good hygiene, and know when to stay home. If you do get sick, rest, hydrate, and monitor for warning signs that need medical attention."
+        }
+    },
+    {
+        id: 4,
+        title: "Understanding Antibiotics: What You Should Know",
+        category: "medicine",
+        categoryName: "💊 Medicine Safety",
+        cardBg: "card-bg-medicine",
+        date: "February 28, 2025",
+        preview: "Important facts about antibiotics and why overuse is dangerous.",
+        content: {
+            introduction: "Antibiotics are powerful medicines that fight bacterial infections. Since their discovery in the early 20th century, they have saved millions of lives by treating once-deadly diseases like pneumonia, tuberculosis, and sepsis. However, antibiotics only work against bacteria—they do NOT work against viruses like the common cold, flu, or COVID-19. Misuse and overuse of antibiotics have led to a global health crisis: antibiotic resistance, where bacteria evolve to become immune to the drugs designed to kill them.",
+            whyItMatters: "Antibiotic resistance is one of the biggest public health threats today. Each year, at least 2.8 million people in the U.S. develop antibiotic-resistant infections, and more than 35,000 die as a result. When bacteria become resistant, common infections become harder—or impossible—to treat. This means longer hospital stays, more expensive medications, and higher mortality rates. The development of new antibiotics has slowed dramatically, making it crucial to preserve the effectiveness of existing ones.",
+            practicalSteps: [
+                { title: "Only take antibiotics when prescribed for a bacterial infection", desc: "Your doctor will determine if your infection is bacterial and requires antibiotics." },
+                { title: "Complete the full course as prescribed", desc: "Even if you feel better, stopping early can allow remaining bacteria to develop resistance." },
+                { title: "Never share antibiotics with others", desc: "Different infections require different antibiotics; what works for one person may not work for another." },
+                { title: "Don't save leftover antibiotics for future use", desc: "Expired or incorrect antibiotics can be ineffective or harmful." },
+                { title: "Ask your doctor if you really need antibiotics", desc: "For many respiratory infections, your body can fight them off without medication." }
+            ],
+            commonMistakes: [
+                "Demanding antibiotics for viral illnesses (pressure on doctors contributes to overprescribing)",
+                "Skipping doses or stopping treatment early",
+                "Using antibiotics left over from a previous illness",
+                "Taking antibiotics prescribed for someone else"
+            ],
+            whenToSeeDoctor: [
+                "Fever above 101°F that lasts more than 3 days",
+                "Symptoms that improve then suddenly worsen",
+                "Shortness of breath or difficulty swallowing",
+                "Signs of antibiotic side effects like severe diarrhea, rash, or hives"
+            ],
+            summary: "Antibiotics are life-saving drugs when used correctly. Never pressure your doctor for antibiotics, always complete your prescribed course, and never share or save antibiotics. Responsible use today ensures these medicines remain effective for tomorrow."
+        }
+    },
+    {
+        id: 5,
+        title: "10 Minute Morning Routine for Mental Clarity",
+        category: "mental",
+        categoryName: "🧠 Mental Health",
+        cardBg: "card-bg-mental",
+        date: "February 20, 2025",
+        preview: "Start your day with these simple practices to reduce stress and improve focus.",
+        content: {
+            introduction: "How you start your morning sets the tone for the rest of your day. Many people wake up and immediately check their phones, exposing themselves to news, emails, and social media before their brain has fully woken up. This can trigger stress and anxiety before you even get out of bed. A short, intentional morning routine can help you feel calmer, more focused, and more in control. You don't need an hour—just 10 minutes can make a significant difference in your mental clarity throughout the day.",
+            whyItMatters: "Research in neuroscience shows that the first 30 minutes after waking are a hypnopompic state—a period where your brain is highly suggestible and more receptive to positive routines. This is why morning habits stick. A consistent morning routine has been linked to lower cortisol levels, better emotional regulation, and increased productivity throughout the day. It also reduces decision fatigue by automating your morning choices.",
+            practicalSteps: [
+                { title: "Minute 1-2: Deep breathing", desc: "Inhale for 4 seconds, hold for 4 seconds, exhale for 6 seconds. This activates the parasympathetic nervous system, reducing stress." },
+                { title: "Minute 3-4: Gentle stretching", desc: "Reach for the sky, touch your toes, roll your shoulders. This wakes up your muscles and improves blood flow." },
+                { title: "Minute 5-6: Drink a full glass of water", desc: "After 7-8 hours of sleep, your body is mildly dehydrated. Water kickstarts your metabolism and brain function." },
+                { title: "Minute 7-8: Set 3 intentions for the day", desc: "Write down or say aloud three things you want to accomplish. This provides direction and purpose." },
+                { title: "Minute 9-10: Practice gratitude", desc: "Think of three things you're grateful for. Gratitude rewires your brain for positivity." }
+            ],
+            commonMistakes: [
+                "Checking phone immediately (social media and news before you're ready can cause anxiety)",
+                "Hitting snooze multiple times (fragmented sleep makes you groggier)",
+                "Skipping breakfast or eating sugar-heavy breakfast (causes energy crashes)",
+                "Starting work emails before personal care (prioritizing others over yourself)"
+            ],
+            whenToSeeDoctor: [
+                "Persistent trouble waking up despite 7-8 hours of sleep",
+                "Morning headaches that don't go away",
+                "Extreme fatigue that lasts all day",
+                "Depression symptoms that are worse in the morning"
+            ],
+            summary: "You don't need a complicated morning routine. Just 10 minutes of breathing, stretching, hydrating, planning, and gratitude can transform your mental state for the entire day. Try it for one week and notice the difference."
+        }
+    },
+    {
+        id: 6,
+        title: "First Aid Basics: Treating Minor Burns and Cuts",
+        category: "firstaid",
+        categoryName: "🚑 First Aid",
+        cardBg: "card-bg-firstaid",
+        date: "February 15, 2025",
+        preview: "Essential first aid knowledge every family should have at home.",
+        content: {
+            introduction: "Accidents happen at home, work, and play. Knowing basic first aid can prevent minor injuries from becoming serious and can save lives in emergencies. Every year, millions of people visit emergency rooms for burns and cuts that could have been managed at home if the person had basic first aid knowledge. This guide covers the proper treatment for minor burns and cuts—the two most common household injuries.",
+            whyItMatters: "Proper first aid reduces pain, prevents infection, speeds healing, and minimizes scarring. For burns, immediate cooling can stop the burning process and reduce tissue damage. For cuts, proper cleaning and bandaging prevent bacteria from entering the wound. Studies show that people with basic first aid knowledge are more confident in emergencies and have better outcomes for minor injuries.",
+            minorBurns: [
+                "Cool the burn under running cool (not cold) water for 10-15 minutes immediately",
+                "Remove jewelry or tight clothing before swelling occurs",
+                "Cover with a sterile gauze bandage or clean cloth to protect from infection",
+                "Take over-the-counter pain relievers like ibuprofen if needed",
+                "Do NOT apply ice directly (can cause further tissue damage)",
+                "Do NOT pop blisters (they protect healing skin underneath)"
+            ],
+            minorCuts: [
+                "Wash your hands before touching the wound to prevent infection",
+                "Clean the wound under running water, removing debris gently",
+                "Apply gentle pressure with a clean cloth to stop bleeding",
+                "Apply antibiotic ointment to reduce infection risk",
+                "Cover with a sterile bandage, changing daily"
+            ],
+            commonMistakes: [
+                "Using butter, oil, or toothpaste on burns (these trap heat and increase damage)",
+                "Applying ice directly to burns (can cause frostbite on damaged tissue)",
+                "Using alcohol or hydrogen peroxide on cuts (damages healthy tissue and slows healing)",
+                "Removing bandages too soon (tears off healing skin)"
+            ],
+            whenToSeeDoctor: [
+                "Burns larger than 3 inches or on face, hands, feet, genitals, or over major joints",
+                "Deep cuts with visible fat, muscle, or bone",
+                "Bleeding that doesn't stop after 10 minutes of pressure",
+                "Signs of infection: increased pain, redness, swelling, fever, or pus",
+                "Cuts from rusty or dirty objects (tetanus risk)"
+            ],
+            summary: "Basic first aid knowledge is essential for every household. Cool burns immediately and never use home remedies like butter. Clean cuts thoroughly, stop bleeding with pressure, and watch for signs of infection. When in doubt, seek medical attention."
+        }
+    },
+    {
+        id: 7,
+        title: "Healthy Eating on a Budget: 15 Tips",
+        category: "nutrition",
+        categoryName: "🥗 Nutrition",
+        cardBg: "card-bg-nutrition",
+        date: "February 10, 2025",
+        preview: "Eating nutritious food doesn't have to be expensive. Here are practical money-saving tips.",
+        content: {
+            introduction: "One of the biggest barriers to healthy eating is the perception that it's expensive. Yes, organic specialty items and pre-cut vegetables cost more. But with planning and smart shopping, you can eat a nutritious, balanced diet without breaking the bank. The key is focusing on whole foods, buying in season, and reducing food waste. This guide shares 15 practical tips to help you eat well on any budget.",
+            whyItMatters: "Poor diet is a leading risk factor for chronic diseases like heart disease, diabetes, and obesity. But many people feel they can't afford healthy food, so they rely on cheap processed options. The reality is that processed foods often cost more per serving than whole foods when you compare their nutritional value. Learning to shop and cook efficiently saves money AND improves health.",
+            practicalSteps: [
+                { title: "Plan meals before grocery shopping", desc: "Check what you already have, then make a list. Stick to it to avoid impulse buys." },
+                { title: "Buy seasonal fruits and vegetables", desc: "In-season produce is cheaper, fresher, and tastes better." },
+                { title: "Shop at local farmers markets", desc: "Prices are often lower, especially near closing time when vendors discount remaining stock." },
+                { title: "Buy whole foods instead of processed", desc: "A bag of rice costs less per serving than instant rice mixes. Whole chicken costs less than pre-cut pieces." },
+                { title: "Cook at home instead of eating out", desc: "Restaurant meals cost 3-5 times more than homemade versions." },
+                { title: "Use cheaper protein sources", desc: "Beans, lentils, eggs, and tofu are excellent protein sources that cost much less than meat." },
+                { title: "Buy in bulk for non-perishable items", desc: "Rice, oats, beans, and spices are cheaper per pound when bought in larger quantities." },
+                { title: "Freeze leftovers for future meals", desc: "Cook once, eat twice. This reduces waste and saves cooking time." },
+                { title: "Drink water instead of sugary drinks", desc: "Soda, juice, and sweetened teas add calories and cost. Water is free." },
+                { title: "Grow your own herbs", desc: "Basil, mint, and cilantro are easy to grow on a windowsill and cost pennies compared to store-bought." }
+            ],
+            commonMistakes: [
+                "Shopping without a list (leads to impulse purchases)",
+                "Buying pre-cut fruits and vegetables (you pay for convenience)",
+                "Throwing away leftovers (wasted food is wasted money)",
+                "Going grocery shopping when hungry (leads to unnecessary purchases)"
+            ],
+            whenToSeeDoctor: [
+                "Unexplained weight loss despite eating well",
+                "Difficulty affording food (ask about food assistance programs)",
+                "Signs of nutritional deficiencies like extreme fatigue, brittle nails, or hair loss"
+            ],
+            summary: "Healthy eating on a budget is possible with planning and smart choices. Plan meals, buy seasonal whole foods, cook at home, and reduce waste. Your health and your wallet will both benefit."
+        }
+    },
+    {
+        id: 8,
+        title: "How to Get Better Sleep: A Complete Guide",
+        category: "lifestyle",
+        categoryName: "🌙 Healthy Living",
+        cardBg: "card-bg-lifestyle",
+        date: "February 5, 2025",
+        preview: "Practical strategies to improve your sleep quality and wake up feeling refreshed.",
+        content: {
+            introduction: "Sleep is not a luxury—it's a biological necessity. During sleep, your body repairs tissues, consolidates memories, clears waste from the brain, and regulates hormones that control appetite, mood, and immune function. Yet one in three adults doesn't get enough sleep regularly. The recommended amount for adults is 7-9 hours per night. Chronic poor sleep is linked to obesity, diabetes, heart disease, depression, and shortened lifespan. The good news is that sleep quality can be improved with consistent habits.",
+            whyItMatters: "Sleep affects every system in your body. A single night of poor sleep increases stress hormones, impairs decision-making, and reduces immune function. Chronic sleep deprivation changes how your brain works permanently. Studies show that people who sleep less than 6 hours per night have a 48% higher risk of developing or dying from heart disease and a 15% higher risk of stroke. Improving sleep is one of the most powerful things you can do for your health.",
+            practicalSteps: [
+                { title: "Stick to a consistent sleep schedule", desc: "Go to bed and wake up at the same time every day, even on weekends. This sets your internal clock." },
+                { title: "Create a relaxing bedtime routine", desc: "Read, stretch, listen to calm music, or take a warm bath. Avoid stimulating activities." },
+                { title: "Avoid screens 1 hour before bed", desc: "Blue light from phones, tablets, and TVs suppresses melatonin, the sleep hormone." },
+                { title: "Keep your bedroom cool, dark, and quiet", desc: "Ideal temperature is 65°F (18°C). Use blackout curtains and white noise if needed." },
+                { title: "Avoid caffeine after 2 PM", desc: "Caffeine stays in your system for 6-8 hours and disrupts deep sleep." },
+                { title: "Exercise regularly but not right before bed", desc: "Morning or afternoon exercise improves sleep, but intense exercise within 2 hours of bed can keep you awake." },
+                { title: "Don't eat large meals before sleeping", desc: "Digestion can disrupt sleep. If hungry, have a small snack like a banana or handful of nuts." },
+                { title: "Get morning sunlight exposure", desc: "Sunlight in the morning helps reset your circadian rhythm and improves nighttime sleep." }
+            ],
+            commonMistakes: [
+                "Using alcohol to fall asleep (alcohol fragments sleep and worsens quality)",
+                "Hitting snooze repeatedly (fragmented sleep at the end of the night leaves you groggy)",
+                "Napping too long or late (naps after 3 PM can disrupt night sleep)",
+                "Lying in bed awake for more than 20 minutes (get up and do something calm until sleepy)"
+            ],
+            whenToSeeDoctor: [
+                "Snoring with gasping or choking sounds (possible sleep apnea)",
+                "Difficulty sleeping that lasts more than 3 months (chronic insomnia)",
+                "Excessive daytime sleepiness despite adequate time in bed",
+                "Restless legs or jerking movements that wake you"
+            ],
+            summary: "Better sleep starts with consistent habits. Set a schedule, create a relaxing routine, avoid screens and caffeine before bed, and make your bedroom a sleep sanctuary. Small changes lead to better rest and better health."
+        }
+    }
+];
+
+// Function to create blog card
+function createBlogCard(post) {
+    return `
+        <div class="blog-card ${post.cardBg}" data-id="${post.id}">
+            <div class="blog-content">
+                <span class="blog-category cat-${post.category}">${post.categoryName}</span>
+                <h3 class="blog-title">${post.title}</h3>
+                <p class="blog-preview">${post.preview}</p>
+                <div class="blog-meta">
+                    <span class="blog-date">📅 ${post.date}</span>
+                    <span class="read-link">Read Article →</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Render all blog posts
+function renderBlogPosts() {
+    const grid = document.getElementById('blogGrid');
+    const resultsInfo = document.getElementById('resultsInfo');
+    
+    grid.innerHTML = blogPosts.map(createBlogCard).join('');
+    resultsInfo.innerHTML = `📄 Showing ${blogPosts.length} in-depth articles`;
+    
+    document.querySelectorAll('.blog-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.classList.contains('read-link')) {
+                e.stopPropagation();
+            }
+            const id = parseInt(card.getAttribute('data-id'));
+            const post = blogPosts.find(p => p.id === id);
+            if (post) {
+                showModal(post);
+            }
+        });
+    });
+}
+
+// Show modal with expanded article
+function showModal(post) {
+    const modal = document.getElementById('articleModal');
+    const modalBody = document.getElementById('modalBody');
+    
+    // Generate practical steps HTML
+    let stepsHtml = '';
+    if (post.content.practicalSteps) {
+        stepsHtml = `
+            <div class="modal-section">
+                <h4>📋 Practical Steps</h4>
+                <ul>
+                    ${post.content.practicalSteps.map(step => `<li><strong>${step.title}</strong><br>${step.desc}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Generate common mistakes HTML
+    let mistakesHtml = '';
+    if (post.content.commonMistakes) {
+        mistakesHtml = `
+            <div class="modal-section">
+                <h4>❌ Common Mistakes to Avoid</h4>
+                <ul>
+                    ${post.content.commonMistakes.map(mistake => `<li>${mistake}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Generate when to see doctor HTML
+    let doctorHtml = '';
+    if (post.content.whenToSeeDoctor) {
+        doctorHtml = `
+            <div class="modal-section">
+                <h4>🚨 When to See a Doctor</h4>
+                <ul>
+                    ${post.content.whenToSeeDoctor.map(symptom => `<li>${symptom}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Generate home care HTML (if exists)
+    let homeCareHtml = '';
+    if (post.content.homeCare) {
+        homeCareHtml = `
+            <div class="modal-section">
+                <h4>🏠 Home Care Tips</h4>
+                <ul>
+                    ${post.content.homeCare.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    // Generate minor burns/cuts HTML (if exists)
+    let burnsHtml = '';
+    if (post.content.minorBurns) {
+        burnsHtml = `
+            <div class="modal-section">
+                <h4>🔥 For Minor Burns</h4>
+                <ul>
+                    ${post.content.minorBurns.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    let cutsHtml = '';
+    if (post.content.minorCuts) {
+        cutsHtml = `
+            <div class="modal-section">
+                <h4>🩹 For Minor Cuts</h4>
+                <ul>
+                    ${post.content.minorCuts.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+    
+    modalBody.innerHTML = `
+        <div class="modal-title">${post.title}</div>
+        <div>
+            <span class="modal-date">📅 ${post.date}</span>
+            <span class="modal-category cat-${post.category}">${post.categoryName}</span>
+        </div>
+        <div class="modal-section">
+            <h4>📖 Introduction</h4>
+            <p>${post.content.introduction}</p>
+        </div>
+        <div class="modal-section">
+            <h4>⚠️ Why It Matters</h4>
+            <p>${post.content.whyItMatters}</p>
+        </div>
+        ${stepsHtml}
+        ${mistakesHtml}
+        ${homeCareHtml}
+        ${burnsHtml}
+        ${cutsHtml}
+        ${doctorHtml}
+        <div class="modal-section">
+            <h4>📝 Summary</h4>
+            <p>${post.content.summary}</p>
+        </div>
+        <div class="modal-warning">
+            ⚠️ Disclaimer: This information is for educational purposes only. Consult a healthcare professional for medical advice.
+        </div>
+    `;
+    
+    modal.style.display = 'flex';
+}
+
+// Setup modal close
+function setupModal() {
+    const modal = document.getElementById('articleModal');
+    const closeBtn = document.querySelector('.close-modal');
+    
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderBlogPosts();
+    setupModal();
+});
+</script>
+</body>
+</html>

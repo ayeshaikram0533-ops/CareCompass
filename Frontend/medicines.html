@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediGuide - Medicines Library</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(145deg, #f0f4fa 0%, #e8eef5 100%);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    padding: 2rem 1.5rem;
+    color: #1a2c3e;
+}
+
+.medicines-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ========== PAGE HEADER ========== */
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 1rem;
+}
+
+.title-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #27ae60, #1e8449);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 5px 16px;
+    border-radius: 40px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(39,174,96,0.3);
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.title-icon {
+    font-size: 3rem;
+    background: none;
+    color: #27ae60;
+}
+
+.title-gradient {
+    background: linear-gradient(135deg, #1e8449, #27ae60, #2ecc71);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+.title-highlight {
+    background: linear-gradient(135deg, #1f4870, #2a6f8f);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+.sub {
+    font-size: 1rem;
+    color: #2c5a74;
+    margin-top: 5px;
+    font-weight: 600;
+    background: rgba(39, 174, 96, 0.12);
+    display: inline-block;
+    padding: 6px 24px;
+    border-radius: 40px;
+}
+
+.description-box {
+    max-width: 750px;
+    margin: 20px auto 0;
+    background: white;
+    padding: 16px 24px;
+    border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #27ae60;
+    text-align: left;
+}
+
+.description-box p {
+    color: #2c5368;
+    font-weight: 450;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+/* ========== SEARCH SECTION ========== */
+.search-section {
+    max-width: 500px;
+    margin: 0 auto 25px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+    border: 2px solid #e0e6ed;
+    border-radius: 50px;
+    background: white;
+    transition: all 0.3s;
+    outline: none;
+    font-family: inherit;
+}
+
+.search-input:focus {
+    border-color: #27ae60;
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.1);
+}
+
+/* ========== FILTER BUTTONS ========== */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: white;
+    color: #555;
+    font-family: inherit;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.filter-btn.active {
+    background: #27ae60;
+    color: white;
+}
+
+/* ========== RESULTS INFO ========== */
+.results-info {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 25px;
+    background: white;
+    border-radius: 40px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+    color: #27ae60;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+/* ========== MEDICINES GRID ========== */
+.medicines-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* ========== MEDICINE CARD ========== */
+.medicine-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.medicine-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* Medicine Icon Section - Colorful Backgrounds */
+.medicine-icon {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
+/* Individual Icon Background Colors */
+.icon-bg-red { background: linear-gradient(135deg, #ff6b6b, #ee5a24); }
+.icon-bg-blue { background: linear-gradient(135deg, #4a90e2, #2c3e50); }
+.icon-bg-green { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.icon-bg-purple { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+.icon-bg-orange { background: linear-gradient(135deg, #f39c12, #e67e22); }
+.icon-bg-pink { background: linear-gradient(135deg, #fd79a8, #e84393); }
+.icon-bg-teal { background: linear-gradient(135deg, #1abc9c, #16a085); }
+.icon-bg-indigo { background: linear-gradient(135deg, #5f27cd, #341f97); }
+.icon-bg-yellow { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+.icon-bg-cyan { background: linear-gradient(135deg, #00cec9, #00b894); }
+
+/* Card Content */
+.medicine-content {
+    padding: 20px;
+}
+
+.medicine-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #1f3e54;
+    margin-bottom: 8px;
+}
+
+.medicine-description {
+    font-size: 0.85rem;
+    color: #456f86;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Dosage Section */
+.dosage-section {
+    background: #f8f9fa;
+    padding: 10px 12px;
+    border-radius: 16px;
+    margin: 12px 0;
+}
+
+.dosage-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.5px;
+}
+
+.dosage-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-top: 4px;
+}
+
+/* Type Badge */
+.medicine-type {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.type-otc {
+    background: #e8f8f0;
+    color: #1e8449;
+    border-left: 3px solid #27ae60;
+}
+
+.type-prescription {
+    background: #fee8e8;
+    color: #c0392b;
+    border-left: 3px solid #e74c3c;
+}
+
+/* Common Uses */
+.common-uses {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 0.7rem;
+    color: #888;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.use-tag {
+    background: #f0f4f9;
+    padding: 3px 10px;
+    border-radius: 20px;
+    color: #2c7da0;
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 30px;
+    grid-column: 1 / -1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .title-icon {
+        font-size: 2rem;
+    }
+    
+    .filter-buttons {
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+    
+    .medicines-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .medicine-icon {
+        height: 140px;
+        font-size: 3.5rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="medicines-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="title-badge">💊 MEDICINE GUIDE</div>
+            <h1>
+                <span class="title-icon">💊</span>
+                <span class="title-gradient">Medicine</span>
+                <span class="title-highlight">Library</span>
+            </h1>
+            <div class="sub">Common medicines · Uses · Dosages · OTC & Prescription</div>
+            <div class="description-box">
+                <p>Information about <strong>20 commonly used medicines</strong>, their uses, dosages, and whether they're available over-the-counter or by prescription.</p>
+            </div>
+        </div>
+
+        <!-- Search Bar
+        <div class="search-section">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search medicines by name or use...">
+        </div> -->
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Medicines</button>
+            <button class="filter-btn" data-filter="otc">🟢 OTC (Over-the-Counter)</button>
+            <button class="filter-btn" data-filter="prescription">🔴 Prescription Only</button>
+        </div>
+
+        <!-- Results Count -->
+        <div class="results-info" id="resultsInfo">Showing 20 medicines</div>
+
+        <!-- Medicines Grid -->
+        <div class="medicines-grid" id="medicinesGrid"></div>
+    </div>
+<script>
+    // 20 Medicines Data with Unique Icons and Color Classes
+const medicinesData = [
+    {
+        name: "Paracetamol",
+        icon: "🔥",
+        iconBg: "icon-bg-red",
+        description: "Reduces fever and relieves mild to moderate pain including headaches, toothaches, and muscle aches.",
+        dosage: "500mg every 4-6 hours as needed. Maximum 4000mg per day.",
+        type: "otc",
+        uses: ["Fever", "Headache", "Toothache", "Muscle pain"]
+    },
+    {
+        name: "Ibuprofen",
+        icon: "🩹",
+        iconBg: "icon-bg-orange",
+        description: "Non-steroidal anti-inflammatory drug (NSAID) that reduces pain, inflammation, and fever.",
+        dosage: "200-400mg every 6-8 hours with food. Maximum 1200mg per day.",
+        type: "otc",
+        uses: ["Pain", "Inflammation", "Fever", "Menstrual cramps"]
+    },
+    {
+        name: "Aspirin",
+        icon: "❤️",
+        iconBg: "icon-bg-red",
+        description: "Used for pain relief, reducing fever, and as a blood thinner to prevent heart attacks.",
+        dosage: "300-600mg every 4-6 hours as needed for pain. Always take with food.",
+        type: "otc",
+        uses: ["Pain", "Fever", "Heart attack prevention", "Inflammation"]
+    },
+    {
+        name: "Cetirizine",
+        icon: "🤧",
+        iconBg: "icon-bg-purple",
+        description: "Antihistamine used to relieve allergy symptoms like sneezing, runny nose, and itchy eyes.",
+        dosage: "10mg once daily. Take at bedtime if drowsiness occurs.",
+        type: "otc",
+        uses: ["Allergies", "Hay fever", "Hives", "Itchy eyes"]
+    },
+    {
+        name: "Loratadine",
+        icon: "🌸",
+        iconBg: "icon-bg-pink",
+        description: "Non-drowsy antihistamine for seasonal allergy relief.",
+        dosage: "10mg once daily. Can be taken with or without food.",
+        type: "otc",
+        uses: ["Seasonal allergies", "Runny nose", "Sneezing", "Itchy eyes"]
+    },
+    {
+        name: "Omeprazole",
+        icon: "🔥",
+        iconBg: "icon-bg-teal",
+        description: "Proton pump inhibitor that reduces stomach acid production.",
+        dosage: "20mg once daily before a meal. Take for 14 days for heartburn.",
+        type: "otc",
+        uses: ["Heartburn", "Acid reflux", "GERD", "Stomach ulcers"]
+    },
+    {
+        name: "Metformin",
+        icon: "🩸",
+        iconBg: "icon-bg-blue",
+        description: "First-line medication for type 2 diabetes that lowers blood sugar levels.",
+        dosage: "500-850mg twice daily with meals. Start with lower dose.",
+        type: "prescription",
+        uses: ["Type 2 Diabetes", "High blood sugar", "PCOS", "Insulin resistance"]
+    },
+    {
+        name: "Amlodipine",
+        icon: "❤️",
+        iconBg: "icon-bg-blue",
+        description: "Calcium channel blocker used to treat high blood pressure and chest pain.",
+        dosage: "5-10mg once daily. Take at same time each day.",
+        type: "prescription",
+        uses: ["High blood pressure", "Chest pain", "Coronary artery disease"]
+    },
+    {
+        name: "Lisinopril",
+        icon: "❤️",
+        iconBg: "icon-bg-indigo",
+        description: "ACE inhibitor that lowers blood pressure and improves survival after heart attack.",
+        dosage: "10-40mg once daily. Take consistently with or without food.",
+        type: "prescription",
+        uses: ["High blood pressure", "Heart failure", "Post-heart attack"]
+    },
+    {
+        name: "Atorvastatin",
+        icon: "🫀",
+        iconBg: "icon-bg-purple",
+        description: "Statin medication that lowers bad cholesterol and triglycerides.",
+        dosage: "10-80mg once daily. Usually taken in the evening.",
+        type: "prescription",
+        uses: ["High cholesterol", "Heart disease prevention", "Stroke prevention"]
+    },
+    {
+        name: "Amoxicillin",
+        icon: "🦠",
+        iconBg: "icon-bg-green",
+        description: "Penicillin antibiotic used to treat various bacterial infections.",
+        dosage: "250-500mg every 8 hours. Complete full course as prescribed.",
+        type: "prescription",
+        uses: ["Bacterial infections", "Pneumonia", "Strep throat", "Ear infections"]
+    },
+    {
+        name: "Azithromycin",
+        icon: "🦠",
+        iconBg: "icon-bg-cyan",
+        description: "Macrolide antibiotic for respiratory and skin infections.",
+        dosage: "500mg on day 1, then 250mg days 2-5. Take with food.",
+        type: "prescription",
+        uses: ["Respiratory infections", "Strep throat", "Sinus infections", "Skin infections"]
+    },
+    {
+        name: "Salbutamol Inhaler",
+        icon: "🌬️",
+        iconBg: "icon-bg-teal",
+        description: "Bronchodilator that relaxes airway muscles for quick asthma relief.",
+        dosage: "1-2 puffs every 4-6 hours as needed for wheezing.",
+        type: "prescription",
+        uses: ["Asthma", "Wheezing", "Shortness of breath", "COPD"]
+    },
+    {
+        name: "Insulin",
+        icon: "💉",
+        iconBg: "icon-bg-red",
+        description: "Hormone that regulates blood sugar levels in people with diabetes.",
+        dosage: "Dose varies based on blood sugar levels. Inject as directed by doctor.",
+        type: "prescription",
+        uses: ["Type 1 Diabetes", "Type 2 Diabetes", "High blood sugar"]
+    },
+    {
+        name: "Levothyroxine",
+        icon: "🦋",
+        iconBg: "icon-bg-yellow",
+        description: "Synthetic thyroid hormone for people with underactive thyroid.",
+        dosage: "25-200mcg once daily. Take on empty stomach 30-60 mins before breakfast.",
+        type: "prescription",
+        uses: ["Hypothyroidism", "Underactive thyroid", "Goiter"]
+    },
+    {
+        name: "Mefenamic Acid",
+        icon: "🩸",
+        iconBg: "icon-bg-pink",
+        description: "NSAID specifically used for menstrual pain and cramps.",
+        dosage: "500mg three times daily during period. Take with food.",
+        type: "prescription",
+        uses: ["Menstrual cramps", "Period pain", "Dysmenorrhea"]
+    },
+    {
+        name: "Domperidone",
+        icon: "🤢",
+        iconBg: "icon-bg-orange",
+        description: "Anti-nausea medication that helps with vomiting and stomach emptying.",
+        dosage: "10-20mg three times daily before meals. Maximum 30mg per day.",
+        type: "prescription",
+        uses: ["Nausea", "Vomiting", "Indigestion", "Stomach fullness"]
+    },
+    {
+        name: "Piriton",
+        icon: "😴",
+        iconBg: "icon-bg-purple",
+        description: "Antihistamine for severe allergies, itching, and hives.",
+        dosage: "4mg every 4-6 hours as needed. May cause drowsiness.",
+        type: "otc",
+        uses: ["Allergic reactions", "Itching", "Hives", "Insect bites"]
+    },
+    {
+        name: "Paracetamol + Caffeine",
+        icon: "⚡",
+        iconBg: "icon-bg-yellow",
+        description: "Pain reliever with caffeine for enhanced effectiveness against migraines.",
+        dosage: "500mg + 65mg caffeine every 6 hours as needed.",
+        type: "otc",
+        uses: ["Migraine", "Tension headache", "Pain relief"]
+    },
+    {
+        name: "Gaviscon",
+        icon: "🛡️",
+        iconBg: "icon-bg-green",
+        description: "Forms a protective layer over stomach contents to relieve heartburn and acid reflux.",
+        dosage: "10-20ml after meals and at bedtime. Shake well before use.",
+        type: "otc",
+        uses: ["Heartburn", "Acid reflux", "Indigestion", "GERD"]
+    }
+];
+
+// Function to create medicine card with colorful icon
+function createMedicineCard(medicine) {
+    const typeClass = medicine.type === 'otc' ? 'type-otc' : 'type-prescription';
+    const typeText = medicine.type === 'otc' ? '🟢 Over-the-Counter (OTC)' : '🔴 Prescription Required';
+    
+    const usesHtml = medicine.uses.map(use => `<span class="use-tag">${use}</span>`).join('');
+    
+    return `
+        <div class="medicine-card" data-type="${medicine.type}" data-name="${medicine.name.toLowerCase()}">
+            <div class="medicine-icon ${medicine.iconBg}">
+                ${medicine.icon}
+            </div>
+            <div class="medicine-content">
+                <h3 class="medicine-name">${medicine.name}</h3>
+                <p class="medicine-description">${medicine.description}</p>
+                <div class="dosage-section">
+                    <div class="dosage-label">💊 Recommended Dosage</div>
+                    <div class="dosage-text">${medicine.dosage}</div>
+                </div>
+                <div class="medicine-type ${typeClass}">${typeText}</div>
+                <div class="common-uses">
+                    ${usesHtml}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Render all medicines
+function renderMedicines(medicines) {
+    const grid = document.getElementById('medicinesGrid');
+    const resultsInfo = document.getElementById('resultsInfo');
+    
+    if (medicines.length === 0) {
+        grid.innerHTML = '<div class="no-results">😕 No medicines found matching your search or filter.<br><br>Try a different keyword or click "All Medicines"</div>';
+        resultsInfo.innerHTML = 'No medicines found';
+        return;
+    }
+    
+    grid.innerHTML = medicines.map(createMedicineCard).join('');
+    resultsInfo.innerHTML = `Showing ${medicines.length} medicine${medicines.length !== 1 ? 's' : ''}`;
+}
+
+// Filter and search logic
+let currentFilter = 'all';
+let currentSearch = '';
+
+function filterAndSearch() {
+    let filtered = [...medicinesData];
+    
+    // Apply type filter
+    if (currentFilter !== 'all') {
+        filtered = filtered.filter(med => med.type === currentFilter);
+    }
+    
+    // Apply search
+    if (currentSearch.trim() !== '') {
+        const searchTerm = currentSearch.toLowerCase();
+        filtered = filtered.filter(med => 
+            med.name.toLowerCase().includes(searchTerm) ||
+            med.description.toLowerCase().includes(searchTerm) ||
+            med.uses.some(use => use.toLowerCase().includes(searchTerm))
+        );
+    }
+    
+    renderMedicines(filtered);
+}
+
+// Setup filter buttons
+function setupFilters() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.getAttribute('data-filter');
+            filterAndSearch();
+        });
+    });
+}
+
+// Setup search input
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+        currentSearch = e.target.value;
+        filterAndSearch();
+    });
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderMedicines(medicinesData);
+    setupFilters();
+    setupSearch();
+});
+</script>
+</body>
+</html>
